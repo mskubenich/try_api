@@ -18,5 +18,9 @@ module TryApi
         run "cd vendor/assets/try_api && bower install angular-bootstrap"
       end
     end
+
+    def routes
+
+    end
   end
 end

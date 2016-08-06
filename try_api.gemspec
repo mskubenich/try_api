@@ -2,6 +2,8 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'try_api/version'
+require 'rails'
+require 'try_api/engine'
 
 Gem::Specification.new do |spec|
   spec.name          = "try_api"
