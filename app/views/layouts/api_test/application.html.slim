@@ -1,0 +1,7 @@
+html(lang="en")
+  head
+    = stylesheet_link_tag "try_api/application", :media => "all"
+    = javascript_include_tag "try_api/application", :media => "all"
+    = csrf_meta_tags
+  body ng-app="TryApiApp" ng-controller="HomeController"
+    = yield

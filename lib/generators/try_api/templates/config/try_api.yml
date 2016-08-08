@@ -1,0 +1,54 @@
+project_name: 'Booklava 2.0'
+categories:
+  -
+    title: 'Introduction'
+    menu_items:
+      -
+        title: 'Introduction'
+        description: 'Lorem ipsum'
+
+  -
+    title: 'Topics'
+    menu_items:
+    -
+      title: 'Topics'
+      html_template: 'try_api/pages/topics'
+    -
+      title: 'Errors'
+      html: '<p> Stripe uses conventional HTTP response codes to indicate the success or failure of an API request.
+            In general, codes in the <code class=" language-undefined">2xx</code> range indicate success, codes in the
+            <code class=" language-undefined">4xx</code> range indicate an error that failed given the information provided
+            (e.g., a required parameter was omitted, a charge failed, etc.), and codes in the <code class=" language-undefined">5xx</code>
+            range indicate an error with Stripe'
+
+  -
+    title: 'Code resources'
+    menu_items:
+      -
+        title: 'Balance'
+        html: '<p>
+                 This is an object representing your Stripe balance. You can retrieve it to see the balance currently on your Stripe account.
+               </p>
+               <p>
+                 You can also retrieve a list of the balance history, which contains a list of transactions that contributed to the balance (e.g., charges, transfers, and so forth).
+               </p>
+               <p>
+                 The available and pending amounts for each currency are broken down further by payment source types.
+               </p>'
+        second_level_menu_items:
+          -
+            title: 'The balance object'
+            parameters:
+              -
+                name: 'first_name'
+                type: 'string'
+              -
+                name: 'last_name'
+                type: 'string'
+              -
+                name: 'email'
+                type: 'boolean'
+            headers:
+              -
+                name: 'first_name'
+                type: 'string'

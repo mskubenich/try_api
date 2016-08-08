@@ -1,0 +1,86 @@
+body
+  margin: 0
+  background-color: #f3f3f4
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+
+  .try-api
+    &-sidebar
+      position: fixed
+      height: 100%
+      width: 220px
+
+      &-header
+        top: 0
+        width: 220px
+        position: absolute
+        padding: 14px
+        height: 50px
+        font-size: 18px
+        color: #939da3
+        border-bottom: 1px solid lightgray
+        -webkit-box-sizing: border-box
+        -moz-box-sizing: border-box
+        box-sizing: border-box
+
+        b
+          font-weight: 800
+          color: rgb(103, 106, 108)
+
+      &-menu
+        padding: 10px
+
+        &-container
+          position: absolute
+          top: 50px
+          bottom: 0
+
+        &-heading
+          color: #939da3
+          font-size: 14px
+          font-weight: 500
+          line-height: 18px
+          text-transform: uppercase
+
+    &-container
+      background-color: white
+      margin-left: 220px
+
+      .method
+        border-bottom: 1px solid lightgray
+        &-try
+          width: 50%
+          float: left
+          background-color: white
+          padding: 40px 15px
+          -webkit-box-sizing: border-box
+          -moz-box-sizing: border-box
+          box-sizing: border-box
+
+          &-heading
+            color: rgb(137, 140, 143)
+
+        &-example
+          margin-left: 50%
+          background-color: #272b2d
+          color: #939da3
+          padding: 40px 15px
+          -webkit-box-sizing: border-box
+          -moz-box-sizing: border-box
+          box-sizing: border-box
+
+  .error-page
+    margin: auto
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    width: 400px
+    height: 300px
+    text-align: center
+    h1
+      font-size: 80px
+      color: rgb(103, 106, 108)
+    h2
+      font-size: 16px
+      color: rgb(137, 140, 143)

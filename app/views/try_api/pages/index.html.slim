@@ -1,0 +1,89 @@
+.try-api-sidebar
+  .try-api-sidebar-header
+    b>
+      = @project.name
+    | API
+  .try-api-sidebar-menu-container
+    .try-api-sidebar-menu
+      - @project.categories.each do |category|
+        h5.try-api-sidebar-menu-heading
+          = category.title
+        <ul class="sidebar-nav-items loaded">
+          <li>
+            <a class="sidebar-nav-item expandable" href="#account">Account</a>
+            <ul class="sidebar-nav-items loaded" data-height="224">
+              <li><a class="sidebar-nav-item" href="#account_object">The account object</a></li>
+              <li><a class="sidebar-nav-item" href="#create_account">Create an account</a></li>
+              <li><a class="sidebar-nav-item" href="#retrieve_account">Retrieve account details</a></li>
+              <li><a class="sidebar-nav-item" href="#update_account">Update an account</a></li>
+              <li><a class="sidebar-nav-item" href="#delete_account">Delete an account</a></li>
+              <li><a class="sidebar-nav-item" href="#reject_account">Reject an account</a></li>
+              <li><a class="sidebar-nav-item" href="#list_accounts">List all connected accounts</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="sidebar-nav-item expandable" href="#fee_refunds">Application Fee Refunds</a>
+            <ul class="sidebar-nav-items loaded" data-height="160">
+              <li><a class="sidebar-nav-item" href="#fee_refund_object">The application fee refund object</a></li>
+              <li><a class="sidebar-nav-item" href="#create_fee_refund">Create an application fee refund</a></li>
+              <li><a class="sidebar-nav-item" href="#retrieve_fee_refund">Retrieve an application fee refund</a></li>
+              <li><a class="sidebar-nav-item" href="#update_fee_refund">Update an application fee refund</a></li>
+              <li><a class="sidebar-nav-item" href="#list_fee_refunds">List all application fee refunds</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="sidebar-nav-item expandable" href="#application_fees">Application Fees</a>
+            <ul class="sidebar-nav-items loaded" data-height="96">
+              <li><a class="sidebar-nav-item" href="#application_fee_object">The application fee object</a></li>
+              <li><a class="sidebar-nav-item" href="#retrieve_application_fee">Retrieve an application fee</a></li>
+              <li><a class="sidebar-nav-item" href="#list_application_fees">List all application fees</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="sidebar-nav-item expandable" href="#recipients">Recipients</a>
+            <ul class="sidebar-nav-items loaded" data-height="192">
+              <li><a class="sidebar-nav-item" href="#recipient_object">The recipient object</a></li>
+              <li><a class="sidebar-nav-item" href="#create_recipient">Create a recipient</a></li>
+              <li><a class="sidebar-nav-item" href="#retrieve_recipient">Retrieve a recipient</a></li>
+              <li><a class="sidebar-nav-item" href="#update_recipient">Update a recipient</a></li>
+              <li><a class="sidebar-nav-item" href="#delete_recipient">Delete a recipient</a></li>
+              <li><a class="sidebar-nav-item" href="#list_recipients">List all recipients</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="sidebar-nav-item expandable" href="#country_specs">Country Specs</a>
+            <ul class="sidebar-nav-items loaded" data-height="96">
+              <li><a class="sidebar-nav-item" href="#country_spec_object">The country spec object</a></li>
+              <li><a class="sidebar-nav-item" href="#list_country_specs">List all country specs</a></li>
+              <li><a class="sidebar-nav-item" href="#retrieve_country_spec">Retrieve a country spec</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="sidebar-nav-item expandable" href="#external_accounts">External Accounts</a>
+            <ul class="sidebar-nav-items loaded" data-height="384">
+              <li><a class="sidebar-nav-item" href="#account_bank_account_object">The (account) bank account object</a></li>
+              <li><a class="sidebar-nav-item" href="#account_create_bank_account">Create a bank account</a></li>
+              <li><a class="sidebar-nav-item" href="#account_retrieve_bank_account">Retrieve a bank account</a></li>
+              <li><a class="sidebar-nav-item" href="#account_update_bank_account">Update a bank account</a></li>
+              <li><a class="sidebar-nav-item" href="#account_delete_bank_account">Delete a bank account</a></li>
+              <li><a class="sidebar-nav-item" href="#account_list_bank_accounts">List all bank accounts</a></li>
+              <li><a class="sidebar-nav-item" href="#account_card_object">The (account) card object</a></li>
+              <li><a class="sidebar-nav-item" href="#account_create_card">Create a card</a></li>
+              <li><a class="sidebar-nav-item" href="#account_retrieve_card">Retrieve a card</a></li>
+              <li><a class="sidebar-nav-item" href="#account_update_card">Update a card</a></li>
+              <li><a class="sidebar-nav-item" href="#account_delete_card">Delete a card</a></li>
+              <li><a class="sidebar-nav-item" href="#account_list_cards">List all cards</a></li>
+            </ul>
+          </li>
+        </ul>
+
+.try-api-container
+  - @project.categories.each do |category|
+    .method
+      .method-try
+        h2.method-try-heading
+          = category.title
+
+        = category.menu_items
+      .method-example
+        = @project.inspect

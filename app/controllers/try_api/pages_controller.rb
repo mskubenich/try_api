@@ -1,8 +1,9 @@
 module TryApi
-  class PagesController < ActionController::Base
+  class PagesController < TryApi::ApplicationController
+    layout 'api_test/application'
 
     def index
-      render text: 'HELLO from TRY-API !'
+      @project = ConfigParser.read
     end
 
   end
