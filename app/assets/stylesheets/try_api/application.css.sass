@@ -1,7 +1,7 @@
 body
   margin: 0
   background-color: #f3f3f4
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-family: Arial, Helvetica, sans-serif
 
   .try-api
     &-sidebar
@@ -41,6 +41,18 @@ body
           line-height: 18px
           text-transform: uppercase
 
+        &-items
+          list-style-type: none
+          padding: 0
+
+        &-item
+          a
+            color: rgb(61, 64, 66)
+            text-decoration: none
+            &:hover
+              text-decoration: underline
+
+
     &-container
       background-color: white
       margin-left: 220px
@@ -58,6 +70,7 @@ body
 
           &-heading
             color: rgb(137, 140, 143)
+            font-weight: normal
 
         &-example
           margin-left: 50%
