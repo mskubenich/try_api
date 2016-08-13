@@ -18,6 +18,7 @@ module TryApi
         run "cd vendor/assets/try_api && bower install jquery"
         run "cd vendor/assets/try_api && bower install bootstrap"
         run "cd vendor/assets/try_api && bower install slimScroll"
+        run "cd vendor/assets/try_api && bower install highlightjs"
       end
 
     end

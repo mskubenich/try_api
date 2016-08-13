@@ -22,6 +22,14 @@
                         = second_level_menu_item.title
 
 .try-api-container
+  .row.method.is-flex
+    .col-md-6.method-try
+      h2.method-try-heading
+        = @project.name
+    .col-md-6.method-example
+      | API endpoint
+      .method-example-code
+        = @project.endpoint
   - index = 0
   - @project.categories.each do |category|
     .row.method.is-flex
@@ -44,9 +52,14 @@
             h4
               = second_level_menu_item.title
             = second_level_menu_item.inspect
-            = second_level_menu_item.inspect
-            = second_level_menu_item.inspect
-            = second_level_menu_item.inspect
-            = second_level_menu_item.inspect
           .col-md-6.method-example
-            = second_level_menu_item.inspect
+            h1
+              | Example responses
+            - second_level_menu_item.example_responses.each do |example|
+              .response
+                span.label> class="label-#{ example.color }"
+                  = example.code
+                = example.description.to_s.humanize
+              pre
+                code class="#{ example.type }"
+                  = example.response
