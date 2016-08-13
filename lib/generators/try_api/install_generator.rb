@@ -12,6 +12,14 @@ module TryApi
 
     def create_config_file
       template 'config/try_api.yml', 'config/try_api.yml'
+
+      Bundler.with_clean_env do
+        run "mkdir vendor/assets/try_api"
+        run "cd vendor/assets/try_api && bower install jquery"
+        run "cd vendor/assets/try_api && bower install bootstrap"
+        run "cd vendor/assets/try_api && bower install slimScroll"
+      end
+
     end
   end
 end

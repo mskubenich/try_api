@@ -7,7 +7,7 @@ module TryApi
       end
 
       define_method("#{name}=") do |value|
-        if value.is_a? type
+        if value.is_a?(type) || value.nil?
           instance_variable_set("@#{name}", value)
         else
           raise TryApi::ArgumentError.new

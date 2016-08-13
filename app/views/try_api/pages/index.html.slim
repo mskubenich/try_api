@@ -3,33 +3,50 @@
     b>
       = @project.name
     | API
-  .try-api-sidebar-menu-container
+  .try-api-sidebar-menu-container#tryApiScrollspy
     .try-api-sidebar-menu
+      - index = 0
       - @project.categories.each do |category|
         h5.try-api-sidebar-menu-heading
           = category.title
-        ul.try-api-sidebar-menu-items
+        ul.try-api-sidebar-menu-items.nav
           - category.menu_items.each do |item|
             li.try-api-sidebar-menu-item
-              a href="#account"
+              a href="#section#{ index += 1 }"
                 = item.title
-              <ul class="sidebar-nav-items loaded" data-height="224">
-                <li><a class="sidebar-nav-item" href="#account_object">The account object</a></li>
-                <li><a class="sidebar-nav-item" href="#create_account">Create an account</a></li>
-                <li><a class="sidebar-nav-item" href="#retrieve_account">Retrieve account details</a></li>
-                <li><a class="sidebar-nav-item" href="#update_account">Update an account</a></li>
-                <li><a class="sidebar-nav-item" href="#delete_account">Delete an account</a></li>
-                <li><a class="sidebar-nav-item" href="#reject_account">Reject an account</a></li>
-                <li><a class="sidebar-nav-item" href="#list_accounts">List all connected accounts</a></li>
-              </ul>
+              - if item.second_level_menu_items.any?
+                ul.second-level-menu-items.nav
+                  - item.second_level_menu_items.each do |second_level_menu_item|
+                    li
+                      a href="#section#{ index += 1 }"
+                        = second_level_menu_item.title
 
 .try-api-container
+  - index = 0
   - @project.categories.each do |category|
-    .method
-      .method-try
+    .row.method.is-flex
+      .col-md-6.method-try
         h2.method-try-heading
           = category.title
-
-        = category.menu_items
-      .method-example
-        = @project.inspect
+      .col-md-6.method-example
+    - category.menu_items.each do |menu_item|
+      .row.method.is-flex id="section#{ index += 1 }"
+        .col-md-6.method-try
+          h3
+            = menu_item.title
+          = menu_item.description
+          = raw menu_item.html
+          ul.second-level-menu-items
+        .col-md-6.method-example
+      - menu_item.second_level_menu_items.each do |second_level_menu_item|
+        .row.method.is-flex id="section#{ index += 1 }"
+          .col-md-6.method-try
+            h4
+              = second_level_menu_item.title
+            = second_level_menu_item.inspect
+            = second_level_menu_item.inspect
+            = second_level_menu_item.inspect
+            = second_level_menu_item.inspect
+            = second_level_menu_item.inspect
+          .col-md-6.method-example
+            = second_level_menu_item.inspect

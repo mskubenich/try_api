@@ -1,7 +1,29 @@
+//= require bower_components/bootstrap/dist/css/bootstrap.min.css
 body
   margin: 0
   background-color: #f3f3f4
   font-family: Arial, Helvetica, sans-serif
+  position: relative
+
+  .row.is-flex
+    display: -webkit-box
+    display: -webkit-flex
+    display: -ms-flexbox
+    display: flex
+    -webkit-flex-wrap: wrap
+    -ms-flex-wrap: wrap
+    flex-wrap: wrap
+
+    & > [class*='col-']
+      display: -webkit-box
+      display: -webkit-flex
+      display: -ms-flexbox
+      display: flex
+      -webkit-box-orient: vertical
+      -webkit-box-direction: normal
+      -webkit-flex-direction: column
+      -ms-flex-direction: column
+      flex-direction: column
 
   .try-api
     &-sidebar
@@ -27,12 +49,16 @@ body
           color: rgb(103, 106, 108)
 
       &-menu
+        .active > a
+          color: #0099e5
+
         padding: 10px
 
         &-container
           position: absolute
           top: 50px
           bottom: 0
+          width: 100%
 
         &-heading
           color: #939da3
@@ -44,6 +70,11 @@ body
         &-items
           list-style-type: none
           padding: 0
+          font-size: 16px
+          .second-level-menu-items
+            list-style-type: none
+            font-size: 14px
+            padding: 10px 9px
 
         &-item
           a
@@ -58,28 +89,21 @@ body
       margin-left: 220px
 
       .method
+        margin-right: 0px
+        margin-left: 0px
         border-bottom: 1px solid lightgray
         &-try
-          width: 50%
-          float: left
           background-color: white
           padding: 40px 15px
-          -webkit-box-sizing: border-box
-          -moz-box-sizing: border-box
-          box-sizing: border-box
 
           &-heading
             color: rgb(137, 140, 143)
             font-weight: normal
 
         &-example
-          margin-left: 50%
           background-color: #272b2d
           color: #939da3
           padding: 40px 15px
-          -webkit-box-sizing: border-box
-          -moz-box-sizing: border-box
-          box-sizing: border-box
 
   .error-page
     margin: auto
