@@ -22,7 +22,81 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. First you need to install gem with dependencies
+
+    - rails g try_api:install
+
+2. Mount try_api engine to your routes. Add this to routes.rb
+
+    - mount TryApi::Engine => '/developers'
+
+3. Modify config/try_api.yml generaded after install command
+
+    - project_name: 'Air Stylist'
+      categories:
+        -
+          title: 'Introduction'
+          menu_items:
+            -
+              title: 'Introduction'
+              description: "Lorem ipsum."
+            -
+              title: 'What does that mean for you, the Stylist?'
+              description: "Lorem ipsum."
+            -
+              title: 'What does that mean for you the Client? '
+              description: "Lorem ipsum."
+
+        -
+          title: 'Sessions'
+          menu_items:
+            -
+              title: 'Sessions'
+              html: '<p>
+                       This is an object representing your Stripe balance. You can retrieve it to see the balance currently on your Stripe account.
+                     </p>
+                     <p>
+                       You can also retrieve a list of the balance history, which contains a list of transactions that contributed to the balance (e.g.,
+                       charges, transfers, and so forth).
+                     </p>
+                     <p>
+                       The available and pending amounts for each currency are broken down further by payment source types.
+                     </p>'
+              second_level_menu_items:
+                -
+                  title: 'Login'
+                  parameters:
+                    -
+                      name: 'email'
+                      type: 'string'
+                    -
+                      name: 'last_name'
+                      type: 'string'
+                    -
+                      name: 'email'
+                      type: 'boolean'
+                  headers:
+                    -
+                      name: 'first_name'
+                      type: 'string'
+
+                -
+                  title: 'Logout'
+                  parameters:
+                    -
+                      name: 'email'
+                      type: 'string'
+                    -
+                      name: 'last_name'
+                      type: 'string'
+                    -
+                      name: 'email'
+                      type: 'boolean'
+                  headers:
+                    -
+                      name: 'first_name'
+                      type: 'string'
+
 
 ## Development
 
