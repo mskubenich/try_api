@@ -19,6 +19,8 @@ module TryApi
         run "cd vendor/assets/try_api && bower install bootstrap"
         run "cd vendor/assets/try_api && bower install slimScroll"
         run "cd vendor/assets/try_api && bower install highlightjs"
+        run "cd vendor/assets/try_api && bower install angular"
+        run "cd vendor/assets/try_api && bower install angular-bootstrap"
       end
 
     end

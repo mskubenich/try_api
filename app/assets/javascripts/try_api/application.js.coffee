@@ -2,6 +2,8 @@
 #= require bower_components/bootstrap/dist/js/bootstrap.min.js
 #= require bower_components/jquery-slimscroll/jquery.slimscroll.min.js
 #= require bower_components/highlightjs/highlight.pack.min.js
+#= require bower_components/angular/angular.js
+#= require bower_components/angular-bootstrap/ui-bootstrap-tpls.js
 
 $ ->
   $('pre code').each (i, block) ->

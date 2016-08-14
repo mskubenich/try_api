@@ -60,35 +60,36 @@
 
             label
               | Headers
-            - method.headers.each do |header|
+            - method.headers.each_with_index do |header, i|
               .row.parameter
                 .col-md-3.text-right
                   b
                     = header.name
                 .col-md-9
-                  input.form-control type="text"
+                  input.form-control type="text" ng-model="headers[#{ index }][#{ i }]"
                   .text-muted.small
                     = raw header.description
             label
               | Parameters
-            - method.parameters.each do |parameter|
+            - method.parameters.each_with_index do |parameter, i|
               .row.parameter
                 .col-md-3.text-right
                   b
                     = parameter.name
                   .text-muted
-                    = parameter.type
+                    .label.label-warning
+                      = parameter.type
                 .col-md-9
                   - case parameter.type
                     - when 'string'
-                      input.form-control type="text"
+                      input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
                     - else
-                      input.form-control type="text"
+                      input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
                   .text-muted.small
                     = raw parameter.description
             br
             .text-right
-              a.btn.btn-success
+              a.btn.btn-success ng-click="submitForm#{ index }()"
                 | Try it
 
           .col-md-6.method-example
@@ -110,3 +111,5 @@
       | Copyright&nbsp;PettersonApps © 2016
     br
     br
+  script
+    = raw render(partial: 'angular.js')
