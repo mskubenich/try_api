@@ -4,6 +4,7 @@
 #= require bower_components/highlightjs/highlight.pack.min.js
 #= require bower_components/angular/angular.js
 #= require bower_components/angular-bootstrap/ui-bootstrap-tpls.js
+#= require bower_components/angular-highlightjs/src/angular-highlightjs.js
 
 $ ->
   $('pre code').each (i, block) ->
@@ -11,4 +12,4 @@ $ ->
 
 
   $('.try-api-sidebar-menu').slimScroll
-    height: '100%'
+    height: '100%'  

@@ -58,39 +58,51 @@
             p
               = raw method.description
 
-            label
-              | Headers
-            - method.headers.each_with_index do |header, i|
-              .row.parameter
-                .col-md-3.text-right
-                  b
-                    = header.name
-                .col-md-9
-                  input.form-control type="text" ng-model="headers[#{ index }][#{ i }]"
-                  .text-muted.small
-                    = raw header.description
-            label
-              | Parameters
-            - method.parameters.each_with_index do |parameter, i|
-              .row.parameter
-                .col-md-3.text-right
-                  b
-                    = parameter.name
-                  .text-muted
-                    .label.label-warning
-                      = parameter.type
-                .col-md-9
-                  - case parameter.type
-                    - when 'string'
-                      input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
-                    - else
-                      input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
-                  .text-muted.small
-                    = raw parameter.description
+            - unless method.headers.blank?
+              label
+                | Headers
+              - method.headers.each_with_index do |header, i|
+                .row.parameter
+                  .col-md-3.text-right
+                    b
+                      = header.name
+                  .col-md-9
+                    input.form-control type="text" ng-model="headers[#{ index }][#{ i }]"
+                    .text-muted.small
+                      = raw header.description
+            - unless method.parameters.blank?
+              label
+                | Parameters
+              - method.parameters.each_with_index do |parameter, i|
+                .row.parameter
+                  .col-md-3.text-right
+                    b
+                      = parameter.name
+                    .text-muted
+                      .label.label-warning
+                        = parameter.type
+                  .col-md-9
+                    - case parameter.type
+                      - when 'string'
+                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
+                      - else
+                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
+                    .text-muted.small
+                      = raw parameter.description
             br
             .text-right
               a.btn.btn-success ng-click="submitForm#{ index }()"
                 | Try it
+            br
+            .method-example-code id="response#{ index }" ng-show="response#{ index }"
+              .label
+                | Status code:
+                span< ng-class="getStatusCodeClass(response#{ index }.status)"
+                  | {{ response#{ index }.status }}
+              br
+              .label
+                | Data:
+              div hljs=true hljs-language="json" hljs-source= "response#{ index }.data"
 
           .col-md-6.method-example
             h1
@@ -103,13 +115,12 @@
               pre
                 code class="#{ example.type }"
                   = example.response
-  .text-right
-    br
-    br
-    br
-    strong
-      | Copyright&nbsp;PettersonApps © 2016
-    br
-    br
+  .row.method.is-flex
+    .col-md-6.method-try
+
+    .col-md-6.method-example
+      .text-right
+        strong
+          | Copyright&nbsp;PettersonApps © 2016
   script
     = raw render(partial: 'angular.js')

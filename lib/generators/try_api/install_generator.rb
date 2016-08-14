@@ -21,6 +21,7 @@ module TryApi
         run "cd vendor/assets/try_api && bower install highlightjs"
         run "cd vendor/assets/try_api && bower install angular"
         run "cd vendor/assets/try_api && bower install angular-bootstrap"
+        run "cd vendor/assets/try_api && bower install angular-highlightjs"
       end
 
     end
