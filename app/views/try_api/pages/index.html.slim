@@ -33,19 +33,17 @@
   - index = 0
   - @project.categories.each do |category|
     .row.method.is-flex
-      .col-md-6.method-try
+      .col-md-12.method-try
         h2.method-try-heading
           = category.title
-      .col-md-6.method-example
     - category.menu_items.each do |menu_item|
       .row.method.is-flex id="section#{ index += 1 }"
-        .col-md-6.method-try
+        .col-md-12.method-try
           h3
             = menu_item.title
           = menu_item.description
           = raw menu_item.html
           ul.second-level-menu-items
-        .col-md-6.method-example
       - menu_item.second_level_menu_items.each do |method|
         .row.method.is-flex id="section#{ index += 1 }"
           .col-md-6.method-try
@@ -103,6 +101,10 @@
               .label
                 | Data:
               div hljs=true hljs-language="json" hljs-source= "response#{ index }.data"
+              br
+              .label
+                | Headers:
+              div hljs=true hljs-language="json" hljs-source= "response#{ index }.headers"
 
           .col-md-6.method-example
             h1

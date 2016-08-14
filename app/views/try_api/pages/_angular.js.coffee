@@ -49,10 +49,12 @@ TryApiApp.controller 'HomeController', [
     <% menu_item.second_level_menu_items.each do |method| %>
     <% index += 1 %>
 
+    $scope.params[<%= index %>] = {}
+
     $scope.responseHandler<%= index %> = (data, status, headers, config) ->
       $scope.response<%= index %> =
-        data: JSON.stringify(data, null, 2),
-        headers: headers
+        data: JSON.stringify(data, null, 2)
+        headers: JSON.stringify(config.headers, null, 2)
         status: status
       return
 
@@ -66,6 +68,10 @@ TryApiApp.controller 'HomeController', [
         transformRequest: angular.identity
         headers:
           'Content-Type': undefined
+          <% method.headers.each_with_index do |header, i| %>
+          '<%= header.name %>': $scope.headers[<%= index %>][<%= i %>]
+          <% end %>
+
       .success $scope.responseHandler<%= index %>
       .error $scope.responseHandler<%= index %>
 
