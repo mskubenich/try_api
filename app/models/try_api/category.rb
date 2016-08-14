@@ -2,16 +2,18 @@ module TryApi
   class Category < TryApi::Base
     typesafe_accessor :title, String
     typesafe_accessor :menu_items, Array
+    typesafe_accessor :project, TryApi::Project
 
     class << self
-      def parse(hash)
-        category = self.new
-        category.title = hash[:title]
-        category.menu_items = []
+      def parse(hash:, project:)
+        instance = self.new
+        instance.title = hash[:title]
+        instance.project = project
+        instance.menu_items = []
         hash[:menu_items].each do |menu_item|
-          category.menu_items << TryApi::MenuItem.parse(menu_item)
+          instance.menu_items << TryApi::MenuItem.parse(hash: menu_item, project: instance.project)
         end
-        category
+        instance
       end
     end
   end

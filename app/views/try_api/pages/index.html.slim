@@ -46,16 +46,55 @@
           = raw menu_item.html
           ul.second-level-menu-items
         .col-md-6.method-example
-      - menu_item.second_level_menu_items.each do |second_level_menu_item|
+      - menu_item.second_level_menu_items.each do |method|
         .row.method.is-flex id="section#{ index += 1 }"
           .col-md-6.method-try
             h4
-              = second_level_menu_item.title
-            = second_level_menu_item.inspect
+              = method.title
+            h4
+              .label.label-info>
+                = method.method
+              = method.full_path
+            p
+              = raw method.description
+
+            label
+              | Headers
+            - method.headers.each do |header|
+              .row.parameter
+                .col-md-3.text-right
+                  b
+                    = header.name
+                .col-md-9
+                  input.form-control type="text"
+                  .text-muted.small
+                    = raw header.description
+            label
+              | Parameters
+            - method.parameters.each do |parameter|
+              .row.parameter
+                .col-md-3.text-right
+                  b
+                    = parameter.name
+                  .text-muted
+                    = parameter.type
+                .col-md-9
+                  - case parameter.type
+                    - when 'string'
+                      input.form-control type="text"
+                    - else
+                      input.form-control type="text"
+                  .text-muted.small
+                    = raw parameter.description
+            br
+            .text-right
+              a.btn.btn-success
+                | Try it
+
           .col-md-6.method-example
             h1
               | Example responses
-            - second_level_menu_item.example_responses.each do |example|
+            - method.example_responses.each do |example|
               .response
                 span.label> class="label-#{ example.color }"
                   = example.code
@@ -63,3 +102,11 @@
               pre
                 code class="#{ example.type }"
                   = example.response
+  .text-right
+    br
+    br
+    br
+    strong
+      | Copyright&nbsp;PettersonApps © 2016
+    br
+    br

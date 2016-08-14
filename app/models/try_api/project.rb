@@ -8,16 +8,16 @@ module TryApi
 
     class << self
       def parse(hash)
-        project = self.new
-        project.name = hash[:project_name]
-        project.host = hash[:host]
-        project.port = hash[:port]
-        project.api_prefix = hash[:api_prefix]
-        project.categories = []
+        instance = self.new
+        instance.name = hash[:project_name]
+        instance.host = hash[:host]
+        instance.port = hash[:port]
+        instance.api_prefix = hash[:api_prefix]
+        instance.categories = []
         hash[:categories].each do |category|
-          project.categories << TryApi::Category.parse(category)
+          instance.categories << TryApi::Category.parse(hash: category, project: instance)
         end
-        project
+        instance
       end
     end
 

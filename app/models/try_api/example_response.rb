@@ -10,11 +10,6 @@ module TryApi
         instance = self.new
         instance.code = hash[:code]
         instance.response = hash[:response]
-
-        puts "======================="
-        puts instance.response
-        puts "======================="
-
         instance.type = hash[:type]
         instance
       end

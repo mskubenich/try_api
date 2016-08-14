@@ -5,20 +5,22 @@ module TryApi
     typesafe_accessor :html_template, String
     typesafe_accessor :description, String
     typesafe_accessor :second_level_menu_items, Array
+    typesafe_accessor :project, TryApi::Project
 
     class << self
-      def parse(hash)
-        menu_item = self.new
-        menu_item.title = hash[:title]
-        menu_item.html = hash[:html]
-        menu_item.description = hash[:description]
-        menu_item.second_level_menu_items = []
+      def parse(hash:, project:)
+        instance = self.new
+        instance.project = project
+        instance.title = hash[:title]
+        instance.html = hash[:html]
+        instance.description = hash[:description]
+        instance.second_level_menu_items = []
         unless hash[:second_level_menu_items].blank?
           hash[:second_level_menu_items].each do |second_level_meny_item|
-            menu_item.second_level_menu_items << TryApi::SecondLevelMenuItem.parse(second_level_meny_item)
+            instance.second_level_menu_items << TryApi::SecondLevelMenuItem.parse(project: instance.project, hash: second_level_meny_item)
           end
         end
-        menu_item
+        instance
       end
     end
   end
