@@ -50,6 +50,7 @@ TryApiApp.controller 'HomeController', [
     <% index += 1 %>
 
     $scope.params[<%= index %>] = {}
+    $scope.headers[<%= index %>] = {}
 
     $scope.responseHandler<%= index %> = (data, status, headers, config) ->
       $scope.response<%= index %> =
@@ -74,8 +75,6 @@ TryApiApp.controller 'HomeController', [
 
       .success $scope.responseHandler<%= index %>
       .error $scope.responseHandler<%= index %>
-
-      console.log $scope.headers[<%= index %>]
 
     <% end %>
     <% end %>
