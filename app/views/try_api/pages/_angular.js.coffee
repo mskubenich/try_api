@@ -65,7 +65,7 @@ TryApiApp.controller 'HomeController', [
       fd.append '<%= parameter.name %>', $scope.params[<%= index %>][<%= i %>]
       <% end %>
 
-      $http.<%= method.method.downcase %> '<%= method.full_path %>', fd,
+      $http.<%= method.method.downcase %> '<%= method.local_path %>', fd,
         transformRequest: angular.identity
         headers:
           'Content-Type': undefined

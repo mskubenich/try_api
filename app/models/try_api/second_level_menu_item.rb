@@ -54,5 +54,9 @@ module TryApi
     def full_path
       "#{ project.host }:#{ project.port }/#{ project.api_prefix }#{ self.path }"
     end
+
+    def local_path
+      "/#{ project.api_prefix }#{ self.path }"
+    end
   end
 end
