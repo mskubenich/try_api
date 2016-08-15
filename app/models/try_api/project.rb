@@ -22,7 +22,7 @@ module TryApi
     end
 
     def endpoint
-      [host, port].flatten.join(':')
+      "#{ host}#{ port.blank? ? '' : (':' + port) }"
     end
   end
 end

@@ -62,7 +62,7 @@ TryApiApp.controller 'HomeController', [
     $scope.submitForm<%= index %> = ->
       fd = new FormData
       <% method.parameters.each_with_index do |parameter, i| %>
-      fd.append '<%= parameter.name %>', $scope.params[<%= index %>][<%= i %>]
+      fd.append '<%= parameter.name %>', $scope.params[<%= index %>][<%= i %>] || ''
       <% end %>
 
       $http.<%= method.method.downcase %> '<%= method.local_path %>', fd,
