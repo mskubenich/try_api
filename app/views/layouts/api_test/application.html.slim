@@ -6,8 +6,8 @@ html(lang="en")
     meta content="width=device-width, initial-scale=1" name="viewport"
     title
       = @title
-    = stylesheet_link_tag "try_api/application", :media => "all"
+    = stylesheet_link_tag "try_api/application", :media => "all", :async => false
+    = javascript_include_tag "try_api/application", :media => "all", :async => false
     = csrf_meta_tags
   body ng-app="TryApiApp" ng-controller="HomeController" data-spy="scroll" data-target="#tryApiScrollspy"
     = yield
-    = javascript_include_tag "try_api/application", :media => "all"
