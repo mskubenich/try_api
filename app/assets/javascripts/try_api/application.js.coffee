@@ -4,7 +4,7 @@
 #= require try_api/bower_components/highlightjs/highlight.pack.min.js
 #= require try_api/bower_components/angular/angular.js
 #= require try_api/bower_components/angular-bootstrap/ui-bootstrap-tpls.js
-#= require try_api/bower_components/angular-highlightjs/src/angular-highlightjs.min.js
+#= require try_api/bower_components/angular-highlightjs/angular-highlightjs.min.js
 
 $ ->
   $('pre code').each (i, block) ->
