@@ -1,38 +1,26 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'try_api/version'
-require 'rails'
-require 'try_api/engine'
-require 'try_api/exceptions'
+$:.push File.expand_path("../lib", __FILE__)
 
-Gem::Specification.new do |spec|
-  spec.name          = "try_api"
-  spec.version       = TryApi::VERSION
-  spec.authors       = ["Mykhaylo Skubenych"]
-  spec.email         = ["mykhaylo.skubenych@gmail.com"]
+# Maintain your gem's version:
+require "try_api/version"
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
-  spec.license       = "MIT"
+# Describe your gem and declare its dependencies:
+Gem::Specification.new do |s|
+  s.name        = "try_api"
+  s.version     = TryApi::VERSION
+  s.authors     = ["Mykhaylo Skubenych"]
+  s.email       = ["mykhaylo.skubenych@gmail.com"]
+  s.homepage    = "http://31.131.16.243:90/mskubenych/try_api"
+  s.summary     = %q{Generates API UI from simple .yml manifest.}
+  s.description = %q{Generates UI for rails apps with APIs. You can easily test, share and play with you'r APIs. Enjoy ) }
+  s.license     = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
-  end
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["test/**/*"]
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  s.add_dependency "rails", "~> 4.2.6"
 
-  spec.add_development_dependency "bundler", "~> 1.12"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "slim-rails"
-  spec.add_development_dependency 'sass-rails', '~> 5.0'
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "slim-rails"
+  s.add_development_dependency "sass-rails"
+  s.add_development_dependency "sqlite3"
 end

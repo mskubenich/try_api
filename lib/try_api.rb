@@ -1,5 +1,4 @@
-require "try_api/version"
+require "try_api/engine"
 
 module TryApi
-  # Your code goes here...
 end

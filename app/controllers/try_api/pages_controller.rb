@@ -1,6 +1,6 @@
 module TryApi
   class PagesController < TryApi::ApplicationController
-    layout 'api_test/application'
+    layout 'try_api/application'
 
     def index
       @project = ConfigParser.read

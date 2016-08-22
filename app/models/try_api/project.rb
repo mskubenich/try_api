@@ -22,7 +22,7 @@ module TryApi
     end
 
     def endpoint
-      "#{ host}#{ port.blank? ? '' : (':' + port) }"
+      "#{ host }#{ port.blank? ? '' : (':' + port.to_s) }"
     end
   end
 end
