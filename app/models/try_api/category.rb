@@ -1,6 +1,7 @@
 module TryApi
   class Category < TryApi::Base
     typesafe_accessor :title, String
+    typesafe_accessor :visible, Boolean
     typesafe_accessor :menu_items, Array
     typesafe_accessor :project, TryApi::Project
 

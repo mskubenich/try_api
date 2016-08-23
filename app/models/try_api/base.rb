@@ -1,6 +1,10 @@
+module Boolean; end
+class TrueClass; include Boolean; end
+class FalseClass; include Boolean; end
+
 module TryApi
   class Base
-    def self.typesafe_accessor(name, type)
+    def self.typesafe_accessor(name, type, options={})
 
       define_method(name) do
         instance_variable_get("@#{name}")
@@ -8,6 +12,7 @@ module TryApi
 
       define_method("#{name}=") do |value|
         if value.is_a?(type) || value.nil?
+          value = options[:default] if value.nil? && !options[:default].nil?
           instance_variable_set("@#{name}", value)
         else
           raise TryApi::ArgumentError.new

@@ -32,10 +32,11 @@
         = @project.endpoint
   - index = 0
   - @project.categories.each do |category|
-    .row.method.is-flex
-      .col-md-12.method-try
-        h2.method-try-heading
-          = category.title
+    - if category.visible
+      .row.method.is-flex
+        .col-md-12.method-try
+          h2.method-try-heading
+            = category.title
     - category.menu_items.each do |menu_item|
       .row.method.is-flex id="section#{ index += 1 }"
         .col-md-12.method-try
@@ -82,9 +83,9 @@
                   .col-md-9
                     - case parameter.type
                       - when 'string'
-                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
+                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
                       - else
-                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]"
+                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
                     .text-muted.small
                       = raw parameter.description
             br

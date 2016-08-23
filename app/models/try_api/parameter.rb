@@ -2,6 +2,7 @@ module TryApi
   class Parameter < TryApi::Base
     typesafe_accessor :name, String
     typesafe_accessor :type, String
+    typesafe_accessor :required, Boolean, default: true
     typesafe_accessor :description, String
 
     class << self
@@ -9,6 +10,7 @@ module TryApi
         instance = self.new
         instance.name = hash[:name]
         instance.type = hash[:type]
+        instance.required = hash[:required]
         instance.description = hash[:description]
         instance
       end
