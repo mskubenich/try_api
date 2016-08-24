@@ -90,9 +90,12 @@
                     .text-muted.small
                       = raw parameter.description
             br
-            .text-right
-              a.btn.btn-success ng-click="submitForm#{ index }()"
-                | Try it
+            .text-right.progress-demo
+              button.btn.btn-success.ladda-button ng-click="submitForm#{ index }()" ladda="formPending#{ index }" data-color="mint" data-style="expand-right" data-size="s"
+                span.lada-label
+                  | Try it
+                span.ladda-spinner
+                .ladda-progress style="width: 101px"
             br
             .method-example-code id="response#{ index }" ng-show="response#{ index }"
               .label

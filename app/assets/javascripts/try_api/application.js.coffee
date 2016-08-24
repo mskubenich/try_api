@@ -5,6 +5,9 @@
 #= require try_api/bower_components/angular/angular.js
 #= require try_api/bower_components/angular-bootstrap/ui-bootstrap-tpls.js
 #= require try_api/bower_components/angular-highlightjs/angular-highlightjs.min.js
+#= require try_api/bower_components/ladda/dist/spin.min.js
+#= require try_api/bower_components/ladda/dist/ladda.min.js
+#= require try_api/bower_components/angular-ladda/dist/angular-ladda.min.js
 
 $ ->
   $('pre code').each (i, block) ->
@@ -14,11 +17,25 @@ $ ->
   $('.try-api-sidebar-menu').slimScroll
     height: '100%'
 
+  Ladda.bind '.progress-demo button', callback: (instance) ->
+    progress = 0
+    interval = setInterval((->
+      progress = Math.min(progress + Math.random() * 0.1, 1)
+      instance.setProgress progress
+      if progress == 1
+        instance.stop()
+        clearInterval interval
+      return
+    ), 200)
+    return
+
+
 TryApiApp = angular.module('TryApiApp', [
   'ui.bootstrap'
 #    'formInput.images'
 #    'formInput.image'
 #    'formInput.file'
+  'angular-ladda'
   'hljs'
 ])
 TryApiApp.config [
@@ -99,16 +116,16 @@ TryApiApp.controller 'HomeController', [
             $scope.params[ui_index] = {}
             $scope.headers[ui_index] = {}
 
+            $scope['formPending' + ui_index] = false
             $scope['responseHandler' + ui_index] = (data, status, headers, config) ->
-
-
-
+              $scope['formPending' + ui_index] = false
               $scope['response' + ui_index ] =
                 data: JSON.stringify(data, null, 2)
                 headers: JSON.stringify(config.headers, null, 2)
                 status: status
 
             $scope['submitForm' + ui_index] = ->
+              $scope['formPending' + ui_index] = true
               headers = {'Content-Type': undefined}
               path = data.project.api_prefix + method.path
 
