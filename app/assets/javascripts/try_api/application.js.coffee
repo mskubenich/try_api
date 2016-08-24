@@ -80,6 +80,7 @@ TryApiApp.controller 'HomeController', [
           return 'text-info'
 
     $scope.headers = []
+    $scope.global_headers = {}
     $scope.params = []
     
     $http.get('/developers/projects').success (data) ->
@@ -99,6 +100,9 @@ TryApiApp.controller 'HomeController', [
             $scope.headers[ui_index] = {}
 
             $scope['responseHandler' + ui_index] = (data, status, headers, config) ->
+
+
+
               $scope['response' + ui_index ] =
                 data: JSON.stringify(data, null, 2)
                 headers: JSON.stringify(config.headers, null, 2)
@@ -110,7 +114,10 @@ TryApiApp.controller 'HomeController', [
 
               $.each method.headers, (i)->
                 header = this
-                headers[header.name] = $scope.headers[ui_index][i]
+                if header.global
+                  headers[header.name] = $scope.global_headers[header.name]
+                else
+                  headers[header.name] = $scope.headers[ui_index][i]
 
               switch method.method.toLowerCase()
                 when 'post'
