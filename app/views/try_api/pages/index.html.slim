@@ -38,7 +38,7 @@
           h2.method-try-heading
             = category.title
     - category.menu_items.each do |menu_item|
-      .row.method.is-flex id="section#{ index += 1 }"
+      .row.method id="section#{ index += 1 }"
         .col-md-12.method-try
           h3
             = menu_item.title
@@ -85,6 +85,14 @@
                     - case parameter.type
                       - when 'string'
                         input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
+                      - when 'integer'
+                        input.form-control type="number" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
+                      - when 'boolean'
+                        .onoffswitch
+                          input.onoffswitch-checkbox ng-model="params[#{ index }][#{ i }]" type="checkbox" id="#{ index }#{ i }#{ parameter.name }-on-off-switch"
+                          label.onoffswitch-label for="#{ index }#{ i }#{ parameter.name }-on-off-switch"
+                            span.onoffswitch-inner
+                            span.onoffswitch-switch
                       - else
                         input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
                     .text-muted.small

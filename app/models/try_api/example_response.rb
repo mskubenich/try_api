@@ -19,6 +19,7 @@ module TryApi
             200 => :success,
             401 => :unauthorized,
             422 => :unprocessable_entity,
+            500 => :internal_server_error,
         }
       end
     end
@@ -31,11 +32,11 @@ module TryApi
       case self.code
         when 200
           'success'
-        when 200..300
+        when 200...300
           'info'
-        when 300..400
+        when 300...400
           'warning'
-        when 400..500
+        when 400...500
           'warning'
         when 500
           'danger'

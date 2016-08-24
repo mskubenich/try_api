@@ -1,7 +1,7 @@
 module TryApi
   class Category < TryApi::Base
     typesafe_accessor :title, String
-    typesafe_accessor :visible, Boolean
+    typesafe_accessor :visible, Boolean, default: true
     typesafe_accessor :menu_items, Array
     typesafe_accessor :project, TryApi::Project
 
@@ -9,6 +9,7 @@ module TryApi
       def parse(hash:, project:)
         instance = self.new
         instance.title = hash[:title]
+        instance.visible = hash[:visible]
         instance.project = project
         instance.menu_items = []
         hash[:menu_items].each do |menu_item|
