@@ -110,7 +110,7 @@ TryApiApp.controller 'HomeController', [
     $scope.global_headers = {}
     $scope.params = []
     
-    $http.get('/developers/projects').success (data) ->
+    $http.get('/developers/projects.json').success (data) ->
       $scope.project = data.project
       $.each data.project.categories, () ->
         category = this

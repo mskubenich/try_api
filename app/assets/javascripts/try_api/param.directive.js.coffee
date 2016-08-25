@@ -4,7 +4,7 @@ angular.module('param').directive 'param', [
   ($filter) ->
 
     link = (scope, element, attrs, ctrl) ->
-
+      scope.unique_id = Math.random()
     return {
       link: link
       restrict: 'A'
@@ -21,8 +21,8 @@ angular.module('param').directive 'param', [
         '    <input ng-switch-when="string" type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '    <input ng-switch-when="integer" type="number" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '    <div ng-switch-when="boolean" class="onoffswitch">' +
-        '      <input class="onoffswitch-checkbox" ng-model="parameter.value" type="checkbox" id="{{ parameter.id }}-on-off-switch">' +
-        '      <label class="onoffswitch-label" for="{{ parameter.id }}-on-off-switch"></label>' +
+        '      <input class="onoffswitch-checkbox" ng-model="parameter.value" type="checkbox" id="{{ unique_id }}-on-off-switch">' +
+        '      <label class="onoffswitch-label" for="{{ unique_id }}-on-off-switch"></label>' +
         '      <span class="onoffswitch-inner"></span>' +
         '      <span class="onoffswitch-switch"></span>' +
         '    </div>' +

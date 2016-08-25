@@ -3,7 +3,7 @@ module TryApi
     layout 'try_api/application'
 
     def index
-      
+
     end
 
   end
