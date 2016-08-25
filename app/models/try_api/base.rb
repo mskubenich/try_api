@@ -36,7 +36,14 @@ module TryApi
         end
       end
 
+      result.merge!({id: self.id})
       result.with_indifferent_access
+    end
+
+    @@instance_count = 0
+
+    def id
+      @id ||= @@instance_count += 1
     end
   end
 end

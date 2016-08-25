@@ -1,7 +1,7 @@
 module TryApi
   class SecondLevelMenuItem < TryApi::Base
     typesafe_accessor :title, String
-    typesafe_accessor :description, String
+    typesafe_accessor :html, String
     typesafe_accessor :parameters, Array
     typesafe_accessor :headers, Array
     typesafe_accessor :path, String
@@ -15,7 +15,7 @@ module TryApi
         instance = self.new
         instance.project = project
         instance.title = hash[:title]
-        instance.description = hash[:description]
+        instance.html = hash[:html]
         instance.parameters = hash[:parameters]
         instance.headers = hash[:headers]
         instance.method = hash[:method].try(:upcase)
@@ -49,6 +49,10 @@ module TryApi
         end
         instance
       end
+    end
+
+    def to_json
+      super.merge local_path: local_path, full_path: full_path
     end
 
     def full_path

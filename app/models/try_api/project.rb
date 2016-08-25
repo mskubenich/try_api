@@ -21,6 +21,10 @@ module TryApi
       end
     end
 
+    def to_json
+      super.merge endpoint: endpoint
+    end
+
     def endpoint
       "#{ host }#{ port.blank? ? '' : (':' + port.to_s) }"
     end

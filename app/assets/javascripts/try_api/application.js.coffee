@@ -8,6 +8,9 @@
 #= require try_api/bower_components/ladda/dist/spin.min.js
 #= require try_api/bower_components/ladda/dist/ladda.min.js
 #= require try_api/bower_components/angular-ladda/dist/angular-ladda.min.js
+#= require try_api/params.directive
+#= require try_api/param.directive
+#= require try_api/paramsarray.directive
 
 $ ->
   $('pre code').each (i, block) ->
@@ -36,6 +39,9 @@ TryApiApp = angular.module('TryApiApp', [
 #    'formInput.image'
 #    'formInput.file'
   'angular-ladda'
+  'param'
+  'params'
+  'paramsarray'
   'hljs'
 ])
 TryApiApp.config [
@@ -83,6 +89,10 @@ TryApiApp.controller 'HomeController', [
   '$http'
   ($scope, $timeout, $sce, $http) ->
 
+
+    $scope.getHtml = (html) ->
+      return $sce.trustAsHtml(html)
+
     $scope.getStatusCodeClass = (code) ->
       switch true
         when code >= 200 && code < 300
@@ -101,71 +111,69 @@ TryApiApp.controller 'HomeController', [
     $scope.params = []
     
     $http.get('/developers/projects').success (data) ->
-      console.log(data)
-      index = 0
+      $scope.project = data.project
       $.each data.project.categories, () ->
         category = this
         $.each category.menu_items, () ->
           menu_item = this
-          index = index + 1
           $.each menu_item.second_level_menu_items, ()->
             method = this
-            index = index + 1
-
-            ui_index = index
-            $scope.params[ui_index] = {}
-            $scope.headers[ui_index] = {}
-
-            $scope['formPending' + ui_index] = false
-            $scope['responseHandler' + ui_index] = (data, status, headers, config) ->
-              $scope['formPending' + ui_index] = false
-              $scope['response' + ui_index ] =
+            method.pending = false
+            method.response_handler = (data, status, headers, config) ->
+              method.pending = false
+              method.response =
                 data: JSON.stringify(data, null, 2)
                 headers: JSON.stringify(config.headers, null, 2)
                 status: status
 
-            $scope['submitForm' + ui_index] = ->
-              $scope['formPending' + ui_index] = true
+            method.submit = ->
+              method.pending = true
               headers = {'Content-Type': undefined}
               path = data.project.api_prefix + method.path
 
               $.each method.headers, (i)->
                 header = this
-                if header.global
-                  headers[header.name] = $scope.global_headers[header.name]
-                else
-                  headers[header.name] = $scope.headers[ui_index][i]
+                headers[header.name] = header.value
 
               switch method.method.toLowerCase()
                 when 'post'
                   fd = new FormData
 
                   $.each method.parameters, (i) ->
-                    parameter = this
-                    fd.append parameter.name, $scope.params[ui_index][i] || ''
+                    $scope.addParameterToForm fd, this
 
                   $http.post path, fd,
                     transformRequest: angular.identity
                     headers: headers
-                  .success $scope['responseHandler' + ui_index]
-                  .error $scope['responseHandler' + ui_index]
+                  .success method.response_handler
+                  .error method.response_handler
                 when 'delete'
                   $http.delete path,
                     transformRequest: angular.identity
                     headers: headers
-                  .success $scope['responseHandler' + ui_index]
-                  .error $scope['responseHandler' + ui_index]
+                  .success method.response_handler
+                  .error method.response_handler
                 when 'get'
                   fd = ''
 
                   $.each method.parameters, (i) ->
                     parameter = this
-                    fd = fd + parameter.name + '=' + ($scope.params[ui_index][i] || '') + '&'
+                    fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
 
                   $http.get path + '?' + fd,
                     transformRequest: angular.identity
                     headers: headers
-                  .success $scope['responseHandler' + ui_index]
-                  .error $scope['responseHandler' + ui_index]
+                  .success method.response_handler
+                  .error method.response_handler
 
+    $scope.addParameterToForm = (form, parameter) ->
+      if parameter.type == 'array'
+        console.log(parameter.values)
+        $.each parameter.values, ->
+          value = this
+          $.each value, ->
+            subparameter = this
+            form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
+      else
+        form.append parameter.name, parameter.value || ''
 ]

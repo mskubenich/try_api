@@ -1,138 +1,105 @@
 .try-api-sidebar
   .try-api-sidebar-header
     b>
-      = @project.name
+      | {{ project.name }}
     | API
   .try-api-sidebar-menu-container#tryApiScrollspy
     .try-api-sidebar-menu
-      - index = 0
-      - @project.categories.each do |category|
+      div ng-repeat="category in project.categories track by category.id"
         h5.try-api-sidebar-menu-heading
-          = category.title
+          | {{ category.title }}
         ul.try-api-sidebar-menu-items.nav
-          - category.menu_items.each do |item|
-            li.try-api-sidebar-menu-item
-              a href="#section#{ index += 1 }"
-                = item.title
-              - if item.second_level_menu_items.any?
-                ul.second-level-menu-items.nav
-                  - item.second_level_menu_items.each do |second_level_menu_item|
-                    li
-                      a href="#section#{ index += 1 }"
-                        = second_level_menu_item.title
-
+          li.try-api-sidebar-menu-item ng-repeat="menu_item in category.menu_items track by menu_item.id"
+            a href="{{ '#section' + category.id + menu_item.id }}"
+              | {{ menu_item.title }}
+            ul.second-level-menu-items.nav ng-show="menu_item.second_level_menu_items"
+              li ng-repeat="method in menu_item.second_level_menu_items track by method.id"
+                a href="{{ '#section' + category.id + menu_item.id + method.id }}"
+                  | {{ method.title }}
 .try-api-container
   .row.method.is-flex
     .col-md-6.method-try
       h2.method-try-heading
-        = @project.name
+        | {{ project.name }}
     .col-md-6.method-example
       | API endpoint
       .method-example-code
-        = @project.endpoint
-  - index = 0
-  - @project.categories.each do |category|
-    - if category.visible
-      .row.method.is-flex
-        .col-md-12.method-try
-          h2.method-try-heading
-            = category.title
-    - category.menu_items.each do |menu_item|
-      .row.method id="section#{ index += 1 }"
+        | {{ project.endpoint }}
+  div ng-repeat="category in project.categories"
+    .row.method ng-if="category.visible"
+      .col-md-12.method-try
+        h2.method-try-heading
+          | {{ category.title }}
+    div ng-repeat="menu_item in category.menu_items track by menu_item.id"
+      .row.method id="'section' + category.id + menu_item.id"
         .col-md-12.method-try
           h3
-            = menu_item.title
-          = menu_item.description
-          = raw menu_item.html
-          ul.second-level-menu-items
-      - menu_item.second_level_menu_items.each do |method|
-        .row.method.is-flex id="section#{ index += 1 }"
+            | {{ menu_item.title }}
+          | {{ menu_item.description }}
+          div ng-bind-html="getHtml(menu_item.html)"
+      div ng-repeat="method in menu_item.second_level_menu_items track by method.id"
+        .row.method ng-if="method.html" id="{{ 'section' + category.id + menu_item.id + method.id }}"
+          .col-md-12.method-try
+            h3
+              | {{ method.title }}
+            div ng-bind-html="getHtml(method.html)"
+        .row.method.is-flex id="{{ method.html ? '' : ('section' + category.id + menu_item.id + method.id) }}"
           .col-md-6.method-try
             h4
-              = method.title
+              | {{ method.title }}
             h4
               .label.label-info>
-                = method.method
-              = method.local_path
-            p
-              = raw method.description
+                | {{ method.method }}
+              | {{ method.local_path }}
+            div ng-if="method.headers.length > 0"
+              label
+                | Headers:
+              .row.parameter ng-repeat="header in method.headers"
+                .col-md-3.text-right
+                  b
+                    | {{header.name }}
+                .col-md-9
+                  input.form-control type="text" ng-model="header.value"
+                  .text-muted.small
+                    div ng-trust-html="getHtml(header.description)"
+            div ng-if="method.parameters.length > 0"
+              label
+                | Parameters:
+              div params=true ng-model="method.parameters"
 
-            - unless method.headers.blank?
-              label
-                | Headers
-              - method.headers.each_with_index do |header, i|
-                .row.parameter
-                  .col-md-3.text-right
-                    b
-                      = header.name
-                  .col-md-9
-                    - ng_model = header.global ? "global_headers['#{ header.name }']" : "headers[#{ index }][#{ i }]"
-                    input.form-control type="text" ng-model="#{ ng_model }"
-                    .text-muted.small
-                      = raw header.description
-            - unless method.parameters.blank?
-              label
-                | Parameters
-              - method.parameters.each_with_index do |parameter, i|
-                .row.parameter
-                  .col-md-3.text-right
-                    b
-                      = parameter.name
-                    .text-muted
-                      .label.label-warning
-                        = parameter.type
-                  .col-md-9
-                    - case parameter.type
-                      - when 'string'
-                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
-                      - when 'integer'
-                        input.form-control type="number" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
-                      - when 'boolean'
-                        .onoffswitch
-                          input.onoffswitch-checkbox ng-model="params[#{ index }][#{ i }]" type="checkbox" id="#{ index }#{ i }#{ parameter.name }-on-off-switch"
-                          label.onoffswitch-label for="#{ index }#{ i }#{ parameter.name }-on-off-switch"
-                            span.onoffswitch-inner
-                            span.onoffswitch-switch
-                      - else
-                        input.form-control type="text" ng-model="params[#{ index }][#{ i }]" placeholder="#{ parameter.required ? 'required' : 'optional' }"
-                    .text-muted.small
-                      = raw parameter.description
             br
             .text-right.progress-demo
-              button.btn.btn-success.ladda-button ng-click="submitForm#{ index }()" ladda="formPending#{ index }" data-color="mint" data-style="expand-right" data-size="s"
-                span.lada-label
+              button.btn.btn-success.ladda-button ng-click="method.submit()" ladda="method.pending" data-color="mint" data-style="expand-right" sata-size="s"
+                span.ladda-label
                   | Try it
                 span.ladda-spinner
-                .ladda-progress style="width: 101px"
+                .ladda-progress style="width: 100px"
             br
-            .method-example-code id="response#{ index }" ng-show="response#{ index }"
+            .method-example-code id="method.response" ng-show="method.response"
               .label
                 | Status code:
-                span< ng-class="getStatusCodeClass(response#{ index }.status)"
-                  | {{ response#{ index }.status }}
+                span< ng-class="getStatusCodeClass(method.response.status)"
+                  | {{ method.response.status }}
               br
               .label
                 | Data:
-              div hljs=true hljs-language="json" hljs-source= "response#{ index }.data"
+              div hljs=true hljs-language="json" hljs-source="method.response.data"
               br
               .label
                 | Headers:
-              div hljs=true hljs-language="json" hljs-source= "response#{ index }.headers"
-
+              div hljs=true hljs-language="json" hljs-source="method.response.headers"
           .col-md-6.method-example
             h1
               | Example responses
-            - method.example_responses.each do |example|
+            div ng-repeat="example in method.example_responses"
               .response
-                span.label> class="label-#{ example.color }"
-                  = example.code
-                = example.description.to_s.humanize
-              pre
-                code class="#{ example.type }"
-                  = example.response
+                span.label> class="label-{{ example.color }}"
+                  | {{ example.code }}
+                | {{ example.description }}
+              div hljs=true hljs-language="{{ example.type }}" hljs-source="example.response"
+
   .row.method.is-flex
     .col-md-6.method-try
-
     .col-md-6.method-example
       .text-right
         strong
