@@ -3,6 +3,7 @@
 //= require try_api/bower_components/angular-bootstrap/ui-bootstrap-csp.css
 //= require try_api/bower_components/ladda/dist/ladda.min.css
 //= require try_api/bower_components/ladda/dist/ladda-themeless.min.css
+//= require try_api/bower_components/components-font-awesome/css/font-awesome.css
 
 body
   margin: 0
@@ -225,3 +226,67 @@ body
  
 .ladda-button
   padding: 5px 8px
+
+
+
+.droppable-area
+  border: 2px dashed transparent
+  border-radius: 10px
+  -webkit-border-radius: 10px
+  -moz-border-radius: 10px
+  padding: 10px
+  &.file-hover
+    border: 2px dashed lightgray
+  ul.images-list
+    margin: 0
+    padding: 0
+    li
+      position: relative
+      margin-right: 4px
+      margin-bottom: 4px
+      display: inline-block
+      border: 1px solid lightgray
+      width: 130px
+      height: 130px
+      border-radius: 6px
+      -webkit-border-radius: 6px
+      -moz-border-radius: 6px
+      background-size: cover
+      background-position: center
+      &:hover
+        border-color: #000000
+      &.plus
+        label
+          &:hover
+            cursor: pointer
+            i.fa.fa-plus
+              color: #000000
+          position: relative
+          width: 130px
+          height: 130px
+          input[type=file]
+            display: none
+
+          i.fa.fa-plus
+            color: lightgray
+            position: absolute
+            margin: auto auto
+            top: 0
+            bottom: 0
+            left: 0
+            right: 0
+            font-size: 20px
+            width: 20px
+            height: 20px
+      i.fa.fa-close
+        color: lightgray
+        position: absolute
+        top: 4px
+        right: 4px
+        font-size: 15px
+        width: 15px
+        height: 15px
+        cursor: pointer
+
+
+

@@ -26,6 +26,7 @@ angular.module('param').directive 'param', [
         '      <span class="onoffswitch-inner"></span>' +
         '      <span class="onoffswitch-switch"></span>' +
         '    </div>' +
+        '    <div ng-switch-when="image" image=true" ng-model="parameter.value">' +
         '    <input ng-switch-default type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '  </div>' +
         '  <div class="text-muted small">{{ parameter.description }}</div>' +

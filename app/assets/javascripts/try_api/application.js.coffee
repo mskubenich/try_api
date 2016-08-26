@@ -11,6 +11,7 @@
 #= require try_api/params.directive
 #= require try_api/param.directive
 #= require try_api/paramsarray.directive
+#= require try_api/image.directive
 
 $ ->
   $('pre code').each (i, block) ->
@@ -35,8 +36,7 @@ $ ->
 
 TryApiApp = angular.module('TryApiApp', [
   'ui.bootstrap'
-#    'formInput.images'
-#    'formInput.image'
+  'formInput.image'
 #    'formInput.file'
   'angular-ladda'
   'param'
