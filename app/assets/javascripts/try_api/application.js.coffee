@@ -166,14 +166,17 @@ TryApiApp.controller 'HomeController', [
                   .success method.response_handler
                   .error method.response_handler
 
-    $scope.addParameterToForm = (form, parameter) ->
+    $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
       if parameter.type == 'array'
-        console.log(parameter.values)
         $.each parameter.values, ->
           value = this
           $.each value, ->
             subparameter = this
-            form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
+            switch subparameter.type
+              when 'boolean'
+                form.append parameter.name + '[]' + subparameter.name, subparameter.value || false
+              else
+                form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
       else
         form.append parameter.name, parameter.value || ''
 ]
