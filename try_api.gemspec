@@ -18,9 +18,4 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails"
-
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "slim-rails"
-  s.add_development_dependency "sass-rails"
-  s.add_development_dependency "sqlite3"
 end
