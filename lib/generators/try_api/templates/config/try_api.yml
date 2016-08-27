@@ -1,54 +1,352 @@
-project_name: 'Booklava 2.0'
-categories:
+project_name: 'My awesome project'
+host: 'http://localhost'
+port: 3000
+api_prefix: 'api/v1'
+menu_items:
   -
     title: 'Introduction'
-    menu_items:
-      -
-        title: 'Introduction'
-        description: 'Lorem ipsum'
-
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
   -
-    title: 'Topics'
-    menu_items:
-    -
-      title: 'Topics'
-      html_template: 'try_api/pages/topics'
-    -
-      title: 'Errors'
-      html: '<p> Stripe uses conventional HTTP response codes to indicate the success or failure of an API request.
-            In general, codes in the <code class=" language-undefined">2xx</code> range indicate success, codes in the
-            <code class=" language-undefined">4xx</code> range indicate an error that failed given the information provided
-            (e.g., a required parameter was omitted, a charge failed, etc.), and codes in the <code class=" language-undefined">5xx</code>
-            range indicate an error with Stripe'
-
+    title: 'Article'
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   -
-    title: 'Code resources'
-    menu_items:
+    title: 'Sessions'
+    methods:
       -
-        title: 'Balance'
-        html: '<p>
-                 This is an object representing your Stripe balance. You can retrieve it to see the balance currently on your Stripe account.
-               </p>
-               <p>
-                 You can also retrieve a list of the balance history, which contains a list of transactions that contributed to the balance (e.g., charges, transfers, and so forth).
-               </p>
-               <p>
-                 The available and pending amounts for each currency are broken down further by payment source types.
-               </p>'
-        second_level_menu_items:
+        title: 'Login'
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        path: '/login'
+        method: 'post'
+        parameters:
           -
-            title: 'The balance object'
+            name: 'email'
+            type: 'string'
+          -
+            name: 'password'
+            type: 'string'
+            description: 'user password'
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "session_token": "86c07402ac0be5e1be29ef194b11da6ecbb86d2b8debddfe462d71063d071fdd"
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": [
+                  "Wrong login/password combination."
+                ]
+              }
+            type: 'json'
+      -
+        title: 'Login with facebook'
+        description: ''
+        path: '/login/facebook'
+        method: 'post'
+        parameters:
+          -
+            name: 'access_token'
+            type: 'string'
+            description: 'facebook access token'
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "session_token": "86c07402ac0be5e1be29ef194b11da6ecbb86d2b8debddfe462d71063d071fdd"
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": [
+                  "An active access token must be used to query information about the current user."
+                ]
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": [
+                  "You need to register first."
+                ]
+              }
+            type: 'json'
+      -
+        title: 'Logout'
+        path: '/logout'
+        method: 'delete'
+        headers:
+          -
+            name: 'Session-Token'
+            description: 'Session token received <a href="#section5">on login</a>'
+            global: true
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "session_token": "86c07402ac0be5e1be29ef194b11da6ecbb86d2b8debddfe462d71063d071fdd"
+              }
+            type: 'ruby'
+          -
+            code: 401
+            response: >
+
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true
+              }
+            type: 'json'
+          -
+            code: 401
+            response: >
+              {
+                "error": "Access Denied !"
+              }
+            type: 'json'
+  -
+    title: 'Registration steps'
+    methods:
+      -
+        title: 'Step 1. Address'
+        path: '/registration'
+        method: 'post'
+        html: >
+          <p style="font-size: 16px;">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        parameters:
+          -
+            name: 'step'
+            type: 'integer'
+            description: "for stylist's step 1 this parameter should be '1'"
+          -
+            name: 'home_postcode'
+            type: 'string'
+          -
+            name: 'home_address'
+            type: 'string'
+            description: "address string from '/addresses' endpoint ?"
+          -
+            name: 'distance'
+            type: 'string'
+            description: "distance i'm willing to travel in miles. Should be 5, 10, 20, 30, 50, 100, National or Global."
+          -
+            name: 'offer_in_salon'
+            type: 'boolean'
+            description: "Should be true or false."
+            required: false
+          -
+            name: 'salon_postcode'
+            type: 'string'
+            required: false
+          -
+            name: 'salon_address'
+            type: 'string'
+            required: false
+            description: "address string from '/addresses' endpoint ?"
+
+        headers:
+          -
+            name: 'Session-Token'
+            description: 'Session token received <a href="#section5">on login</a>'
+            global: true
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true
+              }
+            type: 'json'
+          -
+            code: 401
+            response: >
+              {
+                "errors": ["Access Denied !"]
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": "Wrong step. Your allowed step is 1"
+              }
+            type: 'json'
+          -
+            code: 500
+            response: >
+              {
+                "errors": [
+                  "User is not stylist."
+                ]
+              }
+            type: 'json'
+      -
+        title: 'Step 2'
+        path: '/registration'
+        method: 'post'
+        html: >
+          <p style="font-size: 16px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        parameters:
+          -
+            name: 'step'
+            type: 'integer'
+            description: "for stylist's step 3 this parameter should be '3'. Available working hours should be index from array 07:00, 07:30, 08:00, ... , 19:30, 20:00, 20:30, 21:00"
+          -
+            name: 'days'
+            type: 'array'
             parameters:
               -
-                name: 'first_name'
-                type: 'string'
-              -
-                name: 'last_name'
-                type: 'string'
-              -
-                name: 'email'
+                name: 'enabled'
                 type: 'boolean'
-            headers:
               -
-                name: 'first_name'
-                type: 'string'
+                name: 'day'
+                type: 'integer'
+                description: 'monday -> 0, tuesday -> 1, wednesday -> 2, thursday -> 3, friday -> 4, saturday -> 5, sunday -> 6'
+              -
+                name: 'start_hour'
+                type: 'integer'
+              -
+                name: 'end_hour'
+                type: 'integer'
+
+        headers:
+          -
+            name: 'Session-Token'
+            description: 'Session token received <a href="#section5">on login</a>'
+            global: true
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true
+              }
+            type: 'json'
+          -
+            code: 401
+            response: >
+              {
+                "errors": ["Access Denied !"]
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": "Wrong step. Your allowed step is 1"
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": [
+                  "Monday available start hour can't be blank",
+                  "Monday available start hour is not included in the list",
+                  "Monday available end hour can't be blank",
+                  "Monday available end hour is not included in the list",
+                  "Monday available end hour is not a number",
+                  "Tuesday available can't be blank",
+                  "Wednesday available can't be blank",
+                  "Thursday available can't be blank",
+                  "Friday available can't be blank",
+                  "Saturday available can't be blank",
+                  "Sunday available can't be blank"
+                ]
+              }
+            type: 'json'
+          -
+            code: 500
+            response: >
+              {
+                "errors": [
+                  "User is not stylist."
+                ]
+              }
+            type: 'json'
+      -
+        title: 'Step 3. Profile photos'
+        path: '/registration'
+        method: 'post'
+        html: >
+          <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        parameters:
+          -
+            name: 'step'
+            type: 'integer'
+            description: "for stylist's step 6 this parameter should be '6'."
+          -
+            name: 'left_photo'
+            type: 'image'
+          -
+            name: 'mine_photo'
+            type: 'image'
+          -
+            name: 'right_photo'
+            type: 'image'
+          -
+            name: 'verification_document'
+            type: 'image'
+        headers:
+          -
+            name: 'Session-Token'
+            description: 'Session token received <a href="#section5">on login</a>'
+            global: true
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true
+              }
+            type: 'json'
+          -
+            code: 401
+            response: >
+              {
+                "errors": ["Access Denied !"]
+              }
+            type: 'json'
+          -
+            code: 422
+            response: >
+              {
+                "errors": "Wrong step. Your allowed step is 1"
+              }
+            type: 'json'
+          -
+            code: 500
+            response: >
+              {
+                "errors": [
+                  "User is not stylist."
+                ]
+              }
+            type: 'json'

@@ -1,5 +1,5 @@
 module TryApi
-  class SecondLevelMenuItem < TryApi::Base
+  class Method < TryApi::Base
     typesafe_accessor :title, String
     typesafe_accessor :html, String
     typesafe_accessor :parameters, Array

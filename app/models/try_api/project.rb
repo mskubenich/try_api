@@ -1,7 +1,7 @@
 module TryApi
   class Project < TryApi::Base
     typesafe_accessor :name, String
-    typesafe_accessor :categories, Array
+    typesafe_accessor :menu_items, Array
     typesafe_accessor :host, String
     typesafe_accessor :port, Integer
     typesafe_accessor :api_prefix, String
@@ -13,9 +13,9 @@ module TryApi
         instance.host = hash[:host]
         instance.port = hash[:port]
         instance.api_prefix = hash[:api_prefix]
-        instance.categories = []
-        hash[:categories].each do |category|
-          instance.categories << TryApi::Category.parse(hash: category, project: instance)
+        instance.menu_items = []
+        hash[:menu_items].each do |category|
+          instance.menu_items << TryApi::MenuItem.parse(hash: category, project: instance)
         end
         instance
       end

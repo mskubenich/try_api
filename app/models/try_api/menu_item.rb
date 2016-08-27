@@ -4,7 +4,7 @@ module TryApi
     typesafe_accessor :html, String
     typesafe_accessor :html_template, String
     typesafe_accessor :description, String
-    typesafe_accessor :second_level_menu_items, Array
+    typesafe_accessor :methods, Array
     typesafe_accessor :project, TryApi::Project
 
     class << self
@@ -14,10 +14,10 @@ module TryApi
         instance.title = hash[:title]
         instance.html = hash[:html]
         instance.description = hash[:description]
-        instance.second_level_menu_items = []
-        unless hash[:second_level_menu_items].blank?
-          hash[:second_level_menu_items].each do |second_level_meny_item|
-            instance.second_level_menu_items << TryApi::SecondLevelMenuItem.parse(project: instance.project, hash: second_level_meny_item)
+        instance.methods = []
+        unless hash[:methods].blank?
+          hash[:methods].each do |second_level_meny_item|
+            instance.methods << TryApi::Method.parse(project: instance.project, hash: second_level_meny_item)
           end
         end
         instance

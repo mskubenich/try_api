@@ -112,59 +112,57 @@ TryApiApp.controller 'HomeController', [
     
     $http.get('/developers/projects.json').success (data) ->
       $scope.project = data.project
-      $.each data.project.categories, () ->
-        category = this
-        $.each category.menu_items, () ->
-          menu_item = this
-          $.each menu_item.second_level_menu_items, ()->
-            method = this
+      $.each $scope.project.menu_items, () ->
+        menu_item = this
+        $.each menu_item.methods, ()->
+          method = this
+          method.pending = false
+          method.response_handler = (data, status, headers, config) ->
             method.pending = false
-            method.response_handler = (data, status, headers, config) ->
-              method.pending = false
-              method.response =
-                data: JSON.stringify(data, null, 2)
-                headers: JSON.stringify(config.headers, null, 2)
-                status: status
+            method.response =
+              data: JSON.stringify(data, null, 2)
+              headers: JSON.stringify(config.headers, null, 2)
+              status: status
 
-            method.submit = ->
-              method.pending = true
-              headers = {'Content-Type': undefined}
-              path = data.project.api_prefix + method.path
+          method.submit = ->
+            method.pending = true
+            headers = {'Content-Type': undefined}
+            path = data.project.api_prefix + method.path
 
-              $.each method.headers, (i)->
-                header = this
-                headers[header.name] = header.value
+            $.each method.headers, (i)->
+              header = this
+              headers[header.name] = header.value
 
-              switch method.method.toLowerCase()
-                when 'post'
-                  fd = new FormData
+            switch method.method.toLowerCase()
+              when 'post'
+                fd = new FormData
 
-                  $.each method.parameters, (i) ->
-                    $scope.addParameterToForm fd, this
+                $.each method.parameters, (i) ->
+                  $scope.addParameterToForm fd, this
 
-                  $http.post path, fd,
-                    transformRequest: angular.identity
-                    headers: headers
-                  .success method.response_handler
-                  .error method.response_handler
-                when 'delete'
-                  $http.delete path,
-                    transformRequest: angular.identity
-                    headers: headers
-                  .success method.response_handler
-                  .error method.response_handler
-                when 'get'
-                  fd = ''
+                $http.post path, fd,
+                  transformRequest: angular.identity
+                  headers: headers
+                .success method.response_handler
+                .error method.response_handler
+              when 'delete'
+                $http.delete path,
+                  transformRequest: angular.identity
+                  headers: headers
+                .success method.response_handler
+                .error method.response_handler
+              when 'get'
+                fd = ''
 
-                  $.each method.parameters, (i) ->
-                    parameter = this
-                    fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
+                $.each method.parameters, (i) ->
+                  parameter = this
+                  fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
 
-                  $http.get path + '?' + fd,
-                    transformRequest: angular.identity
-                    headers: headers
-                  .success method.response_handler
-                  .error method.response_handler
+                $http.get path + '?' + fd,
+                  transformRequest: angular.identity
+                  headers: headers
+                .success method.response_handler
+                .error method.response_handler
 
     $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
       if parameter.type == 'array'
