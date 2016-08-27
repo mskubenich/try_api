@@ -1,0 +1,92 @@
+<div class="try-api-sidebar">
+    <div class="try-api-sidebar-header"><b>{{ project.name }}</b> API</div>
+    <div class="try-api-sidebar-menu-container" id="tryApiScrollspy">
+        <ul class="try-api-sidebar-menu try-api-sidebar-menu-items nav">
+            <li class="try-api-sidebar-menu-item" ng-repeat="menu_item in project.menu_items track by menu_item.id"><a
+                    href="{{ &#39;#section&#39; + menu_item.id }}">{{ menu_item.title }}</a>
+                <ul class="second-level-menu-items nav" ng-show="menu_item.methods">
+                    <li ng-repeat="method in menu_item.methods track by method.id"><a
+                            href="{{ &#39;#section&#39; + menu_item.id + method.id }}">{{ method.title }}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="try-api-container">
+    <div class="row method is-flex">
+        <div class="col-md-6 method-try"><h2 class="method-try-heading">{{ project.name }}</h2></div>
+        <div class="col-md-6 method-example">API endpoint
+            <div class="method-example-code">{{ project.endpoint }}</div>
+        </div>
+    </div>
+    <div ng-repeat="menu_item in project.menu_items track by menu_item.id">
+        <div class="row method" id="&#39;section&#39; + menu_item.id">
+            <div class="col-md-12 method-try"><h3>{{ menu_item.title }}</h3>{{ menu_item.description }}
+                <div ng-bind-html="getHtml(menu_item.html)"></div>
+            </div>
+        </div>
+        <div ng-repeat="method in menu_item.methods track by method.id">
+            <div class="row method" id="{{ &#39;section&#39; + menu_item.id + method.id }}" ng-if="method.html">
+                <div class="col-md-12 method-try"><h3>{{ method.title }}</h3>
+                    <div ng-bind-html="getHtml(method.html)"></div>
+                </div>
+            </div>
+            <div class="row method is-flex"
+                 id="{{ method.html ? &#39;&#39; : (&#39;section&#39; + menu_item.id + method.id) }}">
+                <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
+                    <h4>
+                        <div class="label label-info">{{ method.method }}</div>
+                        {{ method.local_path }}
+                    </h4>
+                    <div ng-if="method.headers.length &gt; 0"><label>Headers:</label>
+                        <div class="row parameter" ng-repeat="header in method.headers">
+                            <div class="col-md-3 text-right"><b>{{header.name }}</b></div>
+                            <div class="col-md-9"><input class="form-control" ng-model="header.value" type="text"/>
+                                <div class="text-muted small">
+                                    <div ng-trust-html="getHtml(header.description)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="method.parameters.length &gt; 0"><label>Parameters:</label>
+                        <div ng-model="method.parameters" params=""></div>
+                    </div>
+                    <br/>
+                    <div class="text-right progress-demo">
+                        <button class="btn btn-success ladda-button" data-color="mint" data-style="expand-right"
+                                ladda="method.pending" ng-click="method.submit()" sata-size="s"><span
+                                class="ladda-label">Try it</span><span class="ladda-spinner"></span>
+                            <div class="ladda-progress" style="width: 100px"></div>
+                        </button>
+                    </div>
+                    <br/>
+                    <div class="method-example-code" id="method.response" ng-show="method.response">
+                        <div class="label">Status code: <span ng-class="getStatusCodeClass(method.response.status)">{{ method.response.status }}</span>
+                        </div>
+                        <br/>
+                        <div class="label">Data:</div>
+                        <div hljs="" hljs-language="json" hljs-source="method.response.data"></div>
+                        <br/>
+                        <div class="label">Headers:</div>
+                        <div hljs="" hljs-language="json" hljs-source="method.response.headers"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 method-example"><h1>Example responses</h1>
+                    <div ng-repeat="example in method.example_responses">
+                        <div class="response"><span class="label label-{{ example.color }}">{{ example.code }}</span> {{
+                            example.description }}
+                        </div>
+                        <div hljs="" hljs-language="{{ example.type }}" hljs-source="example.response"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row method is-flex">
+        <div class="col-md-6 method-try"></div>
+        <div class="col-md-6 method-example">
+            <div class="text-right"><strong>Created using <a href="https://github.com/mskubenich/try_api">try_api <i
+                    class="fa fa-github"></i></a></strong></div>
+        </div>
+    </div>
+</div>
