@@ -3,10 +3,10 @@
     <div class="try-api-sidebar-menu-container" id="tryApiScrollspy">
         <ul class="try-api-sidebar-menu try-api-sidebar-menu-items nav">
             <li class="try-api-sidebar-menu-item" ng-repeat="menu_item in project.menu_items track by menu_item.id"><a
-                    href="{{ &#39;#section&#39; + menu_item.id }}">{{ menu_item.title }}</a>
+                    href="{{ '#section' + menu_item.id }}">{{ menu_item.title }}</a>
                 <ul class="second-level-menu-items nav" ng-show="menu_item.methods">
                     <li ng-repeat="method in menu_item.methods track by method.id"><a
-                            href="{{ &#39;#section&#39; + menu_item.id + method.id }}">{{ method.title }}</a></li>
+                            href="{{ '#section' + menu_item.id + method.id }}">{{ method.title }}</a></li>
                 </ul>
             </li>
         </ul>
@@ -20,19 +20,19 @@
         </div>
     </div>
     <div ng-repeat="menu_item in project.menu_items track by menu_item.id">
-        <div class="row method" id="&#39;section&#39; + menu_item.id">
+        <div class="row method" id="'section' + menu_item.id">
             <div class="col-md-12 method-try"><h3>{{ menu_item.title }}</h3>{{ menu_item.description }}
-                <div ng-bind-html="getHtml(menu_item.html)"></div>
+                <div ng-bind-html="getHtml(menu_item.description)"></div>
             </div>
         </div>
         <div ng-repeat="method in menu_item.methods track by method.id">
-            <div class="row method" id="{{ &#39;section&#39; + menu_item.id + method.id }}" ng-if="method.html">
+            <div class="row method" id="{{ 'section' + menu_item.id + method.id }}" ng-if="method.description">
                 <div class="col-md-12 method-try"><h3>{{ method.title }}</h3>
-                    <div ng-bind-html="getHtml(method.html)"></div>
+                    <div ng-bind-html="getHtml(method.description)"></div>
                 </div>
             </div>
             <div class="row method is-flex"
-                 id="{{ method.html ? &#39;&#39; : (&#39;section&#39; + menu_item.id + method.id) }}">
+                 id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}">
                 <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
                     <h4>
                         <div class="label label-info">{{ method.method }}</div>
@@ -73,10 +73,15 @@
                 </div>
                 <div class="col-md-6 method-example"><h1>Example responses</h1>
                     <div ng-repeat="example in method.example_responses">
-                        <div class="response"><span class="label label-{{ example.color }}">{{ example.code }}</span> {{
-                            example.description }}
+                        <div class="response">
+                            <span class="label label-{{ example.color }}">
+                                {{ example.code }}
+                            </span>
+                            {{ example.description }}
                         </div>
-                        <div hljs="" hljs-language="{{ example.type }}" hljs-source="example.response"></div>
+                        <div hljs="" hljs-language="{{ example.type }}" hljs-source="example.response">
+
+                        </div>
                     </div>
                 </div>
             </div>

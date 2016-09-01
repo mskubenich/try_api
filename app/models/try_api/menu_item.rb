@@ -1,7 +1,6 @@
 module TryApi
   class MenuItem < TryApi::Base
     typesafe_accessor :title, String
-    typesafe_accessor :html, String
     typesafe_accessor :html_template, String
     typesafe_accessor :description, String
     typesafe_accessor :methods, Array
@@ -12,7 +11,6 @@ module TryApi
         instance = self.new
         instance.project = project
         instance.title = hash[:title]
-        instance.html = hash[:html]
         instance.description = hash[:description]
         instance.methods = []
         unless hash[:methods].blank?

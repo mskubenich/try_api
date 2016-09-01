@@ -1,7 +1,7 @@
 module TryApi
   class Method < TryApi::Base
     typesafe_accessor :title, String
-    typesafe_accessor :html, String
+    typesafe_accessor :description, String
     typesafe_accessor :parameters, Array
     typesafe_accessor :headers, Array
     typesafe_accessor :path, String
@@ -15,7 +15,7 @@ module TryApi
         instance = self.new
         instance.project = project
         instance.title = hash[:title]
-        instance.html = hash[:html]
+        instance.description = hash[:description]
         instance.parameters = hash[:parameters]
         instance.headers = hash[:headers]
         instance.method = hash[:method].try(:upcase)

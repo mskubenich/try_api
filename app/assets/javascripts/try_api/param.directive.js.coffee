@@ -1,10 +1,15 @@
 angular.module 'param', []
 angular.module('param').directive 'param', [
-  '$filter'
-  ($filter) ->
+  '$filter',
+  '$sce'
+  ($filter, $sce) ->
 
     link = (scope, element, attrs, ctrl) ->
       scope.unique_id = Math.random()
+
+      scope.getHtml = (html) ->
+        return $sce.trustAsHtml(html)
+
     return {
       link: link
       restrict: 'A'
@@ -29,7 +34,7 @@ angular.module('param').directive 'param', [
         '    <div ng-switch-when="image" image=true" ng-model="parameter.value"></div>' +
         '    <input ng-switch-default type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '  </div>' +
-        '  <div class="text-muted small">{{ parameter.description }}</div>' +
+        '  <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +
         '</div>' +
         '<div class="col-md-12" ng-if=\'parameter.type == "array"\'>' +
         '  <div class="row">' +
@@ -38,7 +43,7 @@ angular.module('param').directive 'param', [
         '      <span class="text-muted label label-warning">{{ parameter.type }}</span>' +
         '    </div>' +
         '    <div class="col-md-8">' +
-        '      <div class="text-muted small">{{ parameter.description }}</div>' +
+        '      <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +
         '    </div>' +
         '  </div>' +
         '  <div paramsarray ng-model="parameter"></div>' +
