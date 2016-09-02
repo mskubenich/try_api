@@ -106,7 +106,7 @@ TryApiApp.controller 'HomeController', [
     $scope.headers = []
     $scope.global_headers = {}
     $scope.params = []
-    
+
     $http.get('/developers/projects.json').success (data) ->
       $scope.project = data.project
       $.each $scope.project.menu_items, () ->
@@ -160,7 +160,17 @@ TryApiApp.controller 'HomeController', [
                   headers: headers
                 .success method.response_handler
                 .error method.response_handler
+              when 'put'
+                fd = new FormData
 
+                $.each method.parameters, (i) ->
+                  $scope.addParameterToForm fd, this
+
+                $http.put path, fd,
+                  transformRequest: angular.identity
+                  headers: headers
+                .success method.response_handler
+                .error method.response_handler
     $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
       if parameter.type == 'array'
         $.each parameter.values, ->
