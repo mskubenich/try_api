@@ -24,6 +24,7 @@ angular.module('param').directive 'param', [
         '<div class="col-md-8" ng-if=\'parameter.type != "array"\'>' +
         '  <div ng-switch="parameter.type">' +
         '    <input ng-switch-when="string" type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
+        '    <textarea ng-switch-when="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\' style="max-width: 100%" />' +
         '    <input ng-switch-when="integer" type="number" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '    <div ng-switch-when="boolean" class="onoffswitch">' +
         '      <input class="onoffswitch-checkbox" ng-model="parameter.value" type="checkbox" id="{{ unique_id }}-on-off-switch">' +
