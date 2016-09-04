@@ -37,6 +37,11 @@ Modify config/try_api.yml
     host: 'http://localhost'
     port: 3000
     api_prefix: 'api/v1'
+    variables:
+      access_denied_error: >
+        {
+          "errors": ["Access Denied !"]
+        }
     menu_items:
       -
         title: 'Introduction'
@@ -46,7 +51,7 @@ Modify config/try_api.yml
         methods:
           -
             title: 'Login'
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+            description: 'Lorem ipsum dolor sit amet. <a href="/somewhere">Html</a> also allowed.'
             path: '/login'
             method: 'post'
             parameters:
@@ -73,6 +78,10 @@ Modify config/try_api.yml
                       "Wrong login/password combination."
                     ]
                   }
+                type: 'json'
+              -
+                code: 401
+                response: var:access_denied_error # You can move repeatable parts to variable
                 type: 'json'
            
 ```
