@@ -160,10 +160,9 @@ menu_items:
             type: 'string'
             required: false
           -
-            name: 'salon_address'
-            type: 'string'
+            name: 'bio'
+            type: 'text'
             required: false
-            description: "address string from '/addresses' endpoint ?"
 
         headers:
           -

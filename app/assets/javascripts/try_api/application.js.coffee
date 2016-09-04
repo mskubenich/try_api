@@ -171,8 +171,10 @@ TryApiApp.controller 'HomeController', [
                   headers: headers
                 .success method.response_handler
                 .error method.response_handler
+
     $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
       if parameter.type == 'array'
+        form.append 'a', 'a' # TODO sending empty array causes EOFError
         $.each parameter.values, ->
           value = this
           $.each value, ->
