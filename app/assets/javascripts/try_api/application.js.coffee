@@ -116,8 +116,12 @@ TryApiApp.controller 'HomeController', [
           method.pending = false
           method.response_handler = (data, status, headers, config) ->
             method.pending = false
+            try # TODO catch different types of response
+              data = JSON.stringify(data, null, 2)
+            catch e
+
             method.response =
-              data: JSON.stringify(data, null, 2)
+              data: data
               headers: JSON.stringify(config.headers, null, 2)
               status: status
 
