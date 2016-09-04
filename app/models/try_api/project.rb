@@ -5,6 +5,7 @@ module TryApi
     typesafe_accessor :host, String
     typesafe_accessor :port, Integer
     typesafe_accessor :api_prefix, String
+    typesafe_accessor :variables, Hash, {}
 
     class << self
       def parse(hash)
@@ -13,6 +14,7 @@ module TryApi
         instance.host = hash[:host]
         instance.port = hash[:port]
         instance.api_prefix = hash[:api_prefix]
+        instance.variables = hash[:variables]
         instance.menu_items = []
         hash[:menu_items].each do |category|
           instance.menu_items << TryApi::MenuItem.parse(hash: category, project: instance)

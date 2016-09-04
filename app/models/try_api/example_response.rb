@@ -3,12 +3,14 @@ module TryApi
     typesafe_accessor :code, Integer
     typesafe_accessor :response, String
     typesafe_accessor :type, String
+    typesafe_accessor :project, TryApi::Project
 
     class << self
-      def parse(hash)
+      def parse(hash:, project:)
         return nil if hash.blank?
         instance = self.new
         instance.code = hash[:code]
+        instance.project = project
         instance.response = hash[:response]
         instance.type = hash[:type]
         instance
@@ -47,6 +49,14 @@ module TryApi
 
     def to_json
       super.merge color: color, description: description, isCollapsed: true
+    end
+
+    def response=(input)
+      if input['var:']
+        @response = self.project.variables[input.gsub('var:', '')]
+      else
+        @response = input
+      end
     end
   end
 end

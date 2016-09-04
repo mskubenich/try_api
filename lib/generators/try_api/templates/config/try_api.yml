@@ -2,6 +2,11 @@ project_name: 'My awesome project'
 host: 'http://localhost'
 port: 3000
 api_prefix: 'api/v1'
+variables:
+  access_denied_error: >
+    {
+      "errors": ["Access Denied !"]
+    }
 menu_items:
   -
     title: 'Introduction'
@@ -113,10 +118,7 @@ menu_items:
             type: 'json'
           -
             code: 401
-            response: >
-              {
-                "error": "Access Denied !"
-              }
+            response: var:access_denied_error # You can move repeatable parts to variable
             type: 'json'
   -
     title: 'Registration steps'
@@ -178,10 +180,7 @@ menu_items:
             type: 'json'
           -
             code: 401
-            response: >
-              {
-                "errors": ["Access Denied !"]
-              }
+            response: var:access_denied_error # You can move repeatable parts to variable
             type: 'json'
           -
             code: 422
@@ -246,10 +245,7 @@ menu_items:
             type: 'json'
           -
             code: 401
-            response: >
-              {
-                "errors": ["Access Denied !"]
-              }
+            response:  var:access_denied_error # You can move repeatable parts to variable
             type: 'json'
           -
             code: 422
@@ -329,10 +325,7 @@ menu_items:
             type: 'json'
           -
             code: 401
-            response: >
-              {
-                "errors": ["Access Denied !"]
-              }
+            response:  var:access_denied_error # You can move repeatable parts to variable
             type: 'json'
           -
             code: 422

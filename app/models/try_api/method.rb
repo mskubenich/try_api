@@ -24,7 +24,7 @@ module TryApi
         instance.example_responses = []
         if hash[:example_responses].is_a? Array
           hash[:example_responses].each do |example|
-            instance.example_responses << TryApi::ExampleResponse.parse(example)
+            instance.example_responses << TryApi::ExampleResponse.parse(hash: example, project: project)
           end
         else
         #   TODO raise exception ?
