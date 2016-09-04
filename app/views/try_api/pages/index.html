@@ -72,14 +72,15 @@
                     </div>
                 </div>
                 <div class="col-md-6 method-example"><h1>Example responses</h1>
-                    <div ng-repeat="example in method.example_responses">
-                        <div class="response">
+                    <div ng-repeat="example in method.example_responses" class="method-example-response">
+                        <div class="method-example-response-header" ng-click="example.isCollapsed = !example.isCollapsed" ng-class="{ 'collapsed': example.isCollapsed }">
                             <span class="label label-{{ example.color }}">
                                 {{ example.code }}
                             </span>
-                            {{ example.description }}
+                            &nbsp;{{ example.description }}
+                            <i class="fa" ng-class=" example.isCollapsed ? 'fa-chevron-left' : 'fa-chevron-down' "></i>
                         </div>
-                        <div hljs="" hljs-language="{{ example.type }}" hljs-source="example.response">
+                        <div class="method-example-response-body" hljs="" hljs-language="{{ example.type }}" hljs-source="example.response"  uib-collapse="example.isCollapsed">
 
                         </div>
                     </div>

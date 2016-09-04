@@ -4,6 +4,7 @@
 //= require try_api/bower_components/ladda/dist/ladda.min.css
 //= require try_api/bower_components/ladda/dist/ladda-themeless.min.css
 //= require try_api/bower_components/components-font-awesome/css/font-awesome.css
+//= require try_api/bower_components/angular-bootstrap/ui-bootstrap-csp.css
 
 body
   margin: 0
@@ -20,28 +21,26 @@ body
   button
     outline: none !important
 
-  code
-    margin: 6px 0
-
   .row.is-flex
-    display: -webkit-box
-    display: -webkit-flex
-    display: -ms-flexbox
-    display: flex
-    -webkit-flex-wrap: wrap
-    -ms-flex-wrap: wrap
-    flex-wrap: wrap
-
-    & > [class*='col-']
+    @media (min-width: 1000px)
       display: -webkit-box
       display: -webkit-flex
       display: -ms-flexbox
       display: flex
-      -webkit-box-orient: vertical
-      -webkit-box-direction: normal
-      -webkit-flex-direction: column
-      -ms-flex-direction: column
-      flex-direction: column
+      -webkit-flex-wrap: wrap
+      -ms-flex-wrap: wrap
+      flex-wrap: wrap
+
+      & > [class*='col-']
+        display: -webkit-box
+        display: -webkit-flex
+        display: -ms-flexbox
+        display: flex
+        -webkit-box-orient: vertical
+        -webkit-box-direction: normal
+        -webkit-flex-direction: column
+        -ms-flex-direction: column
+        flex-direction: column
 
   .try-api
     &-sidebar
@@ -124,7 +123,7 @@ body
           padding: 10px 15px
           &-code, code
             color: #b1bdc4
-            margin: 6px 0
+            margin: 0
             padding: 20px 40px
             background: #272b2d
             border-radius: 5px
@@ -135,6 +134,30 @@ body
           h1
             font-size: 16px
             text-transform: uppercase
+
+          &-response
+            margin: 2px 0
+            &-header
+              background-color: #272b2d
+              padding: 3px
+              cursor: pointer
+              border-top-right-radius: 5px
+              border-top-left-radius: 5px
+              position: relative
+              i.fa
+                position: absolute
+                top: 7px
+                right: 5px
+              .label
+                padding: .2em 0.6em 0.16em 0.9em
+              &.collapsed
+                border-bottom-right-radius: 5px
+                border-bottom-left-radius: 5px
+
+            &-body
+              code
+                border-top-left-radius: 0
+                border-top-right-radius: 0
 
   .error-page
     margin: auto
@@ -287,6 +310,3 @@ body
         width: 15px
         height: 15px
         cursor: pointer
-
-
-

@@ -25,7 +25,7 @@ module TryApi
     end
 
     def description
-      self.class.descriptions[self.code]
+      self.class.descriptions[self.code].to_s.humanize
     end
 
     def color
@@ -43,6 +43,10 @@ module TryApi
         else
           'default'
       end
+    end
+
+    def to_json
+      super.merge color: color, description: description, isCollapsed: true
     end
   end
 end
