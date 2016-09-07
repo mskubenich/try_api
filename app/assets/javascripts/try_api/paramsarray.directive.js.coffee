@@ -1,5 +1,4 @@
-angular.module 'paramsarray', []
-angular.module('paramsarray').directive 'paramsarray', [
+angular.module('TryApi').directive 'paramsarray', [
   '$filter'
   ($filter) ->
 

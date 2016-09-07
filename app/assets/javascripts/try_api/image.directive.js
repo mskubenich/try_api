@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('formInput.image', []);
-
-angular.module('formInput.image').directive('image', ['$filter', function($filter) {
+angular.module('TryApi').directive('image', ['$filter', function($filter) {
 
     function link(scope, element, attributes, ctrl) {
 

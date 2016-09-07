@@ -1,5 +1,5 @@
-angular.module 'params', []
-angular.module('params').directive 'params', [
+angular.module 'TryApi', []
+angular.module('TryApi').directive 'params', [
   () ->
 
     link = (scope, element, attrs, ctrl) ->

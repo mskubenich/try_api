@@ -1,5 +1,4 @@
-angular.module 'param', []
-angular.module('param').directive 'param', [
+angular.module('TryApi').directive 'param', [
   '$filter',
   '$sce'
   ($filter, $sce) ->

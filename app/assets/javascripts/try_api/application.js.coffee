@@ -9,6 +9,7 @@
 #= require try_api/param.directive
 #= require try_api/paramsarray.directive
 #= require try_api/image.directive
+#= require try_api/url.directive
 
 $ ->
   $('pre code').each (i, block) ->
@@ -34,11 +35,8 @@ $ ->
 TryApiApp = angular.module('TryApiApp', [
   'ui.bootstrap'
   'ngAnimate'
-  'formInput.image'
+  'TryApi'
   'angular-ladda'
-  'param'
-  'params'
-  'paramsarray'
   'hljs'
 ])
 TryApiApp.config [
@@ -128,7 +126,6 @@ TryApiApp.controller 'HomeController', [
           method.submit = ->
             method.pending = true
             headers = {'Content-Type': undefined}
-            path = data.project.api_prefix + method.path
 
             $.each method.headers, (i)->
               header = this
@@ -141,13 +138,13 @@ TryApiApp.controller 'HomeController', [
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this
 
-                $http.post path, fd,
+                $http.post method.submit_path, fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
                 .error method.response_handler
               when 'delete'
-                $http.delete path,
+                $http.delete method.submit_path,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
@@ -159,7 +156,7 @@ TryApiApp.controller 'HomeController', [
                   parameter = this
                   fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
 
-                $http.get path + '?' + fd,
+                $http.get method.submit_path + '?' + fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
@@ -170,7 +167,7 @@ TryApiApp.controller 'HomeController', [
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this
 
-                $http.put path, fd,
+                $http.put method.submit_path, fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler

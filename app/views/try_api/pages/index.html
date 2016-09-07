@@ -36,7 +36,7 @@
                 <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
                     <h4>
                         <div class="label label-info">{{ method.method }}</div>
-                        {{ method.local_path }}
+                        <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
                     </h4>
                     <div ng-if="method.headers.length &gt; 0"><label>Headers:</label>
                         <div class="row parameter" ng-repeat="header in method.headers">
@@ -65,7 +65,7 @@
                         </div>
                         <br/>
                         <div class="label">Data:</div>
-                        <div hljs="" hljs-language="json" hljs-source="method.response.data"></div>
+                        <div hljs="" hljs-language="" hljs-source="method.response.data"></div>
                         <br/>
                         <div class="label">Headers:</div>
                         <div hljs="" hljs-language="json" hljs-source="method.response.headers"></div>

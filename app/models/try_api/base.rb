@@ -40,10 +40,13 @@ module TryApi
       result.with_indifferent_access
     end
 
-    @@instance_count = 0
+    @@instances_count = 0
 
-    def id
-      @id ||= @@instance_count += 1
+    attr_accessor :id
+
+    def initialize()
+      super
+      self.id = @@instances_count += 1
     end
   end
 end
