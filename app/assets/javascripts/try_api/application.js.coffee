@@ -1,6 +1,4 @@
 #= require try_api/bower_components/highlightjs/highlight.pack.min.js
-#= require try_api/bower_components/angular-bootstrap/ui-bootstrap.js
-#= require try_api/bower_components/angular-bootstrap/ui-bootstrap-tpls.js
 #= require try_api/bower_components/angular-highlightjs/angular-highlightjs.min.js
 #= require try_api/bower_components/ladda/dist/spin.min.js
 #= require try_api/bower_components/ladda/dist/ladda.min.js
