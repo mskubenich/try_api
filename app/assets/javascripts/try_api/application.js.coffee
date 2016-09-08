@@ -137,7 +137,8 @@ TryApiApp.controller 'HomeController', [
                 fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
                 $.each method.parameters, (i) ->
-                  $scope.addParameterToForm fd, this
+                  if this.value
+                    $scope.addParameterToForm fd, this
 
                 $http.post method.submit_path, fd,
                   transformRequest: angular.identity
@@ -155,7 +156,8 @@ TryApiApp.controller 'HomeController', [
 
                 $.each method.parameters, (i) ->
                   parameter = this
-                  fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
+                  if this.value
+                    fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
 
                 $http.get method.submit_path + '?' + fd,
                   transformRequest: angular.identity
@@ -167,7 +169,8 @@ TryApiApp.controller 'HomeController', [
                 fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
                 $.each method.parameters, (i) ->
-                  $scope.addParameterToForm fd, this
+                  if this.value
+                    $scope.addParameterToForm fd, this
 
                 $http.put method.submit_path, fd,
                   transformRequest: angular.identity
