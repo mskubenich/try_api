@@ -18,10 +18,19 @@ module TryApi
       def descriptions
         {
             200 => :success,
+            201 => :created,
+            204 => :no_content,
+            304 => :not_modified,
+            400 => :bad_request,
             401 => :unauthorized,
+            403 => :forbidden,
+            404 => :not_found,
+            408 => :request_timeout,
             422 => :unprocessable_entity,
             500 => :internal_server_error,
-            404 => :not_found,
+            502 => :bad_gateway,
+            503 => :service_unavailable,
+            504 => :gateway_timeout
         }
       end
     end
