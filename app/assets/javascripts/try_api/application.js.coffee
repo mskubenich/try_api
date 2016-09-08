@@ -1,4 +1,3 @@
-#= require try_api/bower_components/angular-ladda/dist/angular-ladda.min.js
 #= require try_api/params.directive
 #= require try_api/param.directive
 #= require try_api/paramsarray.directive
