@@ -134,6 +134,7 @@ TryApiApp.controller 'HomeController', [
             switch method.method.toLowerCase()
               when 'post'
                 fd = new FormData
+                fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this
@@ -163,6 +164,7 @@ TryApiApp.controller 'HomeController', [
                 .error method.response_handler
               when 'put'
                 fd = new FormData
+                fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this

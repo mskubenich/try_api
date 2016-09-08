@@ -9,6 +9,23 @@ body
   background-color: #f3f3f4
   font-family: Arial, Helvetica, sans-serif
 
+  input, textarea
+    border: 0
+    border-bottom: 2px solid #19B698
+    outline: none
+    &:not(.url-input)
+      width: 100%
+
+
+  ::-webkit-input-placeholder
+    color: #19B698
+  ::-moz-placeholder
+    color: #19B698
+  :-moz-placeholder
+    color: #19B698
+  :-ms-input-placeholder
+    color: #19B698
+
   pre
     padding: 0
     margin: 0
@@ -84,8 +101,8 @@ body
 
         &-items
           list-style-type: none
-          padding: 0
           font-size: 16px
+          padding-bottom: 60px
           .second-level-menu-items
             list-style-type: none
             font-size: 14px
@@ -176,9 +193,8 @@ body
 
 
   .parameter
-    border-bottom: 1px solid #e8e8e8
-    padding-bottom: 7px
-    padding-top: 7px
+    padding-bottom: 5px
+    padding-top: 5px
 
 .nav > li > a
   padding: 1px 11px

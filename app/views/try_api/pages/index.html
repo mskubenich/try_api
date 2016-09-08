@@ -31,8 +31,7 @@
                     <div ng-bind-html="getHtml(method.description)"></div>
                 </div>
             </div>
-            <div class="row method is-flex"
-                 id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}">
+            <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}">
                 <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
                     <h4>
                         <div class="label label-info">{{ method.method }}</div>
@@ -40,8 +39,8 @@
                     </h4>
                     <div ng-if="method.headers.length &gt; 0"><label>Headers:</label>
                         <div class="row parameter" ng-repeat="header in method.headers">
-                            <div class="col-md-3 text-right"><b>{{header.name }}</b></div>
-                            <div class="col-md-9"><input class="form-control" ng-model="header.value" type="text"/>
+                            <div class="col-md-4 text-right"><b>{{header.name }}</b></div>
+                            <div class="col-md-8"><input ng-model="header.value" type="text"/>
                                 <div class="text-muted small">
                                     <div ng-trust-html="getHtml(header.description)"></div>
                                 </div>

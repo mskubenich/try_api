@@ -22,9 +22,9 @@ angular.module('TryApi').directive 'param', [
         '</div>' +
         '<div class="col-md-8" ng-if=\'parameter.type != "array"\'>' +
         '  <div ng-switch="parameter.type">' +
-        '    <input ng-switch-when="string" type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
-        '    <textarea ng-switch-when="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\' style="max-width: 100%" />' +
-        '    <input ng-switch-when="integer" type="number" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
+        '    <input ng-switch-when="string" type="text" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
+        '    <textarea ng-switch-when="text" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\' style="max-width: 100%" />' +
+        '    <input ng-switch-when="integer" type="number" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '    <div ng-switch-when="boolean" class="onoffswitch">' +
         '      <input class="onoffswitch-checkbox" ng-model="parameter.value" type="checkbox" id="{{ unique_id }}-on-off-switch">' +
         '      <label class="onoffswitch-label" for="{{ unique_id }}-on-off-switch"></label>' +
@@ -32,7 +32,7 @@ angular.module('TryApi').directive 'param', [
         '      <span class="onoffswitch-switch"></span>' +
         '    </div>' +
         '    <div ng-switch-when="image" image=true" ng-model="parameter.value"></div>' +
-        '    <input ng-switch-default type="text" class="form-control" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
+        '    <input ng-switch-default type="text" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '  </div>' +
         '  <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +
         '</div>' +

@@ -20,9 +20,16 @@ angular.module('TryApi').directive 'url', [
 
       scope.$watch 'parts', ->
         scope.url = scope.parts.map((i)->
-          i.value
+          if i.value == '' then '0' else i.value
         ).join('/')
       , true
+
+      scope.inputStyle = (part) ->
+        charWidth = 13.3;
+        return  {
+          "width": ((part.value).length + 1) * charWidth + "px",
+          "min-width": ((part.placeholder).length) * charWidth + "px"
+        }
 
     return {
       link: link
@@ -34,7 +41,7 @@ angular.module('TryApi').directive 'url', [
       template: '<span ng-repeat="part in parts track by $index">' +
         '/' +
         '<span ng-if="!isParameter(part.placeholder)">{{ part.value }}</span>' +
-        '<input ng-if="isParameter(part.placeholder)" ng-model="part.value" placeholder="{{ part.placeholder }}"/>' +
+        '<input ng-if="isParameter(part.placeholder)" ng-model="part.value" class="url-input" ng-style="inputStyle(part)" placeholder="{{ part.placeholder }}" scope="max-width: 90%; font-family:monospace;"/>' +
         '</span>'
     }
 ]

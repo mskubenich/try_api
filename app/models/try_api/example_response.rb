@@ -22,6 +22,7 @@ module TryApi
             401 => :unauthorized,
             422 => :unprocessable_entity,
             500 => :internal_server_error,
+            404 => :not_found,
         }
       end
     end
