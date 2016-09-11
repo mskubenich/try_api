@@ -1,0 +1,141 @@
+name: 'Your awesome project'
+host: 'http://localhost'
+port: 3000
+api_prefix: 'api/v1'
+
+include!: variables
+
+menu_items:
+
+  - title: 'Intro'
+    description: >
+      <ul>
+        <li>
+          You can setup host, port and API prefix,
+        </li>
+        <li>
+          move repeatable parts into variables: <code>var:variable_name</code>,
+        </li>
+        <li>
+          use <label class="label-info">html</label> in descriptions. This allows you insert images here form /public folder.
+        </li>
+        <li>
+          split this config file into few small different files and include them here using <code>include!: file_name</code> directive.
+        </li>
+      </ul>
+  - title: 'Example requests'
+    methods:
+      -
+        title: 'Some POST method.'
+        description: 'You can show examples of possible responses, list parameters ...'
+        path: '/login'
+        method: 'POST'
+        parameters:
+          -
+            name: 'email'
+            type: 'string'
+            description: '... specify name and type of each parameter'
+          -
+            name: 'password'
+            type: 'string'
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true
+              }
+            type: 'json'
+          -
+            code: 401
+            response: var:access_denied_error
+            type: 'json'
+      -
+        title: 'Some GET method.'
+        description: 'PUT method is also allowed. And you have ability to setup headers:'
+        path: '/profile'
+        method: 'GET'
+        headers:
+          -
+            name: 'Session-Token'
+            description: 'Session token for example.'
+
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "id": 40,
+                "user_type": "stylist",
+                "first_name": "First",
+                "last_name": "Last",
+                "email": "stylist@mail.com",
+                "phone_number": "123456789",
+                "facebook": true,
+                "home_postcode": "12345",
+                "registration_step": "card_info",
+                "registration_step_code": 5
+              }
+            type: 'json'
+          -
+            code: 401
+            response: var:access_denied_error
+            type: 'json'
+      -
+        title: 'Some DELETE method.'
+        description: 'You can also setup headers.'
+        path: '/logout'
+        method: 'DELETE'
+        headers:
+          -
+            name: 'Session-Token'
+
+        example_responses:
+          -
+            code: 200
+            response: >
+              {
+                "ok": true,
+              }
+            type: 'json'
+          -
+            code: 401
+            response: var:access_denied_error
+            type: 'json'
+
+  - title: 'Parameter types'
+    methods:
+      -
+        title: 'Some method.'
+        description: 'Here is all types presented. We also need "file" type and maybe few others.'
+        path: '/form'
+        method: 'POST'
+        parameters:
+          -
+            name: 'string'
+            type: 'string'
+          -
+            name: 'integer'
+            type: 'integer'
+          -
+            name: 'boolean'
+            type: 'boolean'
+          -
+            name: 'image'
+            type: 'image'
+          -
+            name: 'array'
+            type: 'array'
+            description: 'Yes! this is array which can include other sets of parameters. '
+            parameters:
+               -
+                 name: 'id'
+                 type: 'integer'
+          -
+            name: 'text'
+            type: 'text'
+      -
+        title: 'Endpoint with URL parameters.'
+        path: '/search/:q'
+        method: 'GET'
+        description: 'All you need is just place your URL parameter with prepended colon (:) symbol.'

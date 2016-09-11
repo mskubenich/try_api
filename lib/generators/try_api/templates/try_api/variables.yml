@@ -1,0 +1,5 @@
+variables:
+  access_denied_error: >
+    {
+      "errors": ["Access Denied !"]
+    }

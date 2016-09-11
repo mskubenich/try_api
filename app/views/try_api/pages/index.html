@@ -21,7 +21,7 @@
     </div>
     <div ng-repeat="menu_item in project.menu_items track by menu_item.id">
         <div class="row method" id="'section' + menu_item.id">
-            <div class="col-md-12 method-try"><h3>{{ menu_item.title }}</h3>{{ menu_item.description }}
+            <div class="col-md-12 method-try"><h3>{{ menu_item.title }}</h3>
                 <div ng-bind-html="getHtml(menu_item.description)"></div>
             </div>
         </div>

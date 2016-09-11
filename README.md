@@ -32,61 +32,7 @@ This works ony with Rails yet. Maybe there is a sense to make it self-sufficient
 
 ## Usage
 
-Modify config/try_api.yml
-
-```yml
-    project_name: 'My awesome project'
-    host: 'http://localhost'
-    port: 3000
-    api_prefix: 'api/v1'
-    variables:
-      access_denied_error: >
-        {
-          "errors": ["Access Denied !"]
-        }
-    menu_items:
-      -
-        title: 'Introduction'
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      -
-        title: 'Sessions'
-        methods:
-          -
-            title: 'Login'
-            description: 'Lorem ipsum dolor sit amet. <a href="/somewhere">Html</a> also allowed.'
-            path: '/login'
-            method: 'post'
-            parameters:
-              -
-                name: 'email'
-                type: 'string'
-              -
-                name: 'password'
-                type: 'string'
-                description: 'user password'
-            example_responses:
-              -
-                code: 200
-                response: >
-                  {
-                    "session_token": "86c07402ac0be5e1be29ef194b11da6ecbb86d2b8debddfe462d71063d071fdd"
-                  }
-                type: 'json'
-              -
-                code: 422
-                response: >
-                  {
-                    "errors": [
-                      "Wrong login/password combination."
-                    ]
-                  }
-                type: 'json'
-              -
-                code: 401
-                response: var:access_denied_error # You can move repeatable parts to variable
-                type: 'json'
-           
-```
+Modify [config/try_api/base.yml](lib/generators/try_api/templates/try_api/base.yml)
 
 ## Contributing
 

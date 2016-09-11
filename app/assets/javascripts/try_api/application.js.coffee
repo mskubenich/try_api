@@ -52,31 +52,6 @@ TryApiApp.controller 'HomeController', [
   '$http'
   ($scope, $timeout, $sce, $http) ->
 
-    $scope.getStatusCodeClass = (code) ->
-      switch true
-        when code >= 200 && code < 300
-          return 'text-success'
-        when code >= 300 && code < 400
-          return 'text-warning'
-        when code >= 400 && code < 500
-          return 'text-danger'
-        when code >= 500
-          return 'text-danger'
-        else
-          return 'text-info'
-
-    $scope.headers = []
-    $scope.params = []
-
-]
-
-TryApiApp.controller 'HomeController', [
-  '$scope'
-  '$timeout'
-  '$sce'
-  '$http'
-  ($scope, $timeout, $sce, $http) ->
-
 
     $scope.getHtml = (html) ->
       return $sce.trustAsHtml(html)
@@ -98,7 +73,7 @@ TryApiApp.controller 'HomeController', [
     $scope.global_headers = {}
     $scope.params = []
 
-    $http.get('/developers/projects.json').success (data) ->
+    $http.get('/developers/projects.json').success (data) -> # TODO this should depends from app routes
       $scope.project = data.project
       $.each $scope.project.menu_items, () ->
         menu_item = this
@@ -124,6 +99,8 @@ TryApiApp.controller 'HomeController', [
               header = this
               headers[header.name] = header.value
 
+            path = $scope.project.host + ':' + $scope.project.port + '/' + method.submit_path
+
             switch method.method.toLowerCase()
               when 'post'
                 fd = new FormData
@@ -132,13 +109,13 @@ TryApiApp.controller 'HomeController', [
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this
 
-                $http.post method.submit_path, fd,
+                $http.post path, fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
                 .error method.response_handler
               when 'delete'
-                $http.delete method.submit_path,
+                $http.delete path,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
@@ -150,7 +127,7 @@ TryApiApp.controller 'HomeController', [
                   parameter = this
                   fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
 
-                $http.get method.submit_path + '?' + fd,
+                $http.get path + '?' + fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
@@ -162,7 +139,7 @@ TryApiApp.controller 'HomeController', [
                 $.each method.parameters, (i) ->
                   $scope.addParameterToForm fd, this
 
-                $http.put method.submit_path, fd,
+                $http.put path, fd,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler

@@ -45,12 +45,12 @@ module TryApi
       self.instance_variables.each do |i|
         value = self.instance_variable_get(i)
         if value.instance_of?(Array)
-          result[i.to_s.gsub('@', '')] = value.map(&:to_json)
+          result[i.to_s.delete('@')] = value.map(&:to_json)
         else
           if i == :@parent
 
           else
-            result[i.to_s.gsub('@', '')] = value
+            result[i.to_s.delete('@')] = value
           end
         end
       end
@@ -75,13 +75,13 @@ module TryApi
       end
 
       result_hash.to_h.each do |k, v|
-        v = self.project.variables[v.gsub('var:', '')] if v.is_a?(String) && v['var:']
+        v = self.project.variables[v.gsub('var:', '')] if v.is_a?(String) && v.start_with?('var:')
         send("#{k}=", v) if respond_to?("#{k}=")
       end
     end
 
     def self.load_inclusion(filename)
-      if File.exists?("#{ Rails.root }/config/try_api/#{ filename }.yml")
+      if File.exist?("#{ Rails.root }/config/try_api/#{ filename }.yml")
         hash = YAML.load_file("#{ Rails.root }/config/try_api/#{ filename }.yml")
         hash.with_indifferent_access
       else
