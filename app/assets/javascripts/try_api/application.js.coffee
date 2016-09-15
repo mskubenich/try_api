@@ -125,7 +125,8 @@ TryApiApp.controller 'HomeController', [
 
                 $.each method.parameters, (i) ->
                   parameter = this
-                  fd = fd + parameter.name + '=' + (parameter.value || '') + '&'
+                  if parameter.value
+                    fd = fd + parameter.name + '=' + parameter.value + '&'
 
                 $http.get path + '?' + fd,
                   transformRequest: angular.identity
@@ -158,5 +159,6 @@ TryApiApp.controller 'HomeController', [
               else
                 form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
       else
-        form.append parameter.name, parameter.value || ''
+        if parameter.value
+          form.append parameter.name, parameter.value
 ]
