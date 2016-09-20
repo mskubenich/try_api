@@ -159,6 +159,10 @@ TryApiApp.controller 'HomeController', [
               else
                 form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
       else
-        if parameter.value
-          form.append parameter.name, parameter.value
+        switch parameter.type
+          when 'boolean'
+            form.append parameter.name, parameter.value || false
+          else
+            if parameter.value
+              form.append parameter.name, parameter.value || ''
 ]
