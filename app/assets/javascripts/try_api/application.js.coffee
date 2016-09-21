@@ -99,7 +99,7 @@ TryApiApp.controller 'HomeController', [
               header = this
               headers[header.name] = header.value
 
-            path = $scope.project.host + ':' + $scope.project.port + '/' + method.submit_path
+            path = method.submit_path
 
             switch method.method.toLowerCase()
               when 'post'
