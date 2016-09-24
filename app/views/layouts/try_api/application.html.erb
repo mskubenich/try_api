@@ -23,7 +23,7 @@
     <%= stylesheet_link_tag "try_api/application", :media => "all", :async => false %>
     <%= javascript_include_tag "try_api/application", :media => "all", :async => false %>
 </head>
-  <body data-spy="scroll" data-target="#tryApiScrollspy" ng-app="TryApiApp" ng-controller="HomeController">
+  <body style="position: relative" scroll-spy='' data-target="#tryApiScrollspy" ng-app="TryApiApp" ng-controller="HomeController">
     <%= yield %>
   </body>
 </html>

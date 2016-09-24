@@ -3,6 +3,7 @@
 #= require try_api/paramsarray.directive
 #= require try_api/image.directive
 #= require try_api/url.directive
+#= require try_api/scrollspy.directive
 
 $ ->
   $('pre code').each (i, block) ->
@@ -30,7 +31,8 @@ TryApiApp = angular.module('TryApiApp', [
   'ngAnimate'
   'TryApi'
   'angular-ladda'
-  'hljs'
+  'hljs',
+  'tryApiScrollSpy.directives'
 ])
 TryApiApp.config [
   '$httpProvider'
@@ -143,6 +145,9 @@ TryApiApp.controller 'HomeController', [
                   headers: headers
                 .success method.response_handler
                 .error method.response_handler
+    .error (data, status, headers, config) ->
+      if status = 422
+        alert data.error
 
     $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
       if parameter.type == 'array'

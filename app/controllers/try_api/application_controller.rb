@@ -3,7 +3,11 @@ class TryApi::ApplicationController < ActionController::Base
 
   rescue_from Exception do |exception|
     @message = exception.message
-    render template: 'try_api/pages/config_file_not_found'
+    begin
+      render template: 'try_api/pages/config_file_not_found'
+    rescue Exception => e
+      render json: {error: exception.message}, status: 422
+    end
   end
 
 end

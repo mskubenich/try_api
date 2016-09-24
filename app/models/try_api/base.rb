@@ -35,17 +35,20 @@ module TryApi
       end
     end
 
-    attr_accessor :id
     typesafe_accessor :parent, TryApi::Base
-    @@instances_count = 0
+    attr_accessor :id
 
-    def to_json
+    def to_json(id = 1)
+      self.id = id
       result = {}
 
       self.instance_variables.each do |i|
         value = self.instance_variable_get(i)
         if value.instance_of?(Array)
-          result[i.to_s.delete('@')] = value.map(&:to_json)
+          result[i.to_s.delete('@')] = value.map do |v|
+            id += 1
+            v.to_json(id)
+          end
         else
           if i == :@parent
 
@@ -55,7 +58,6 @@ module TryApi
         end
       end
 
-      result.merge!({id: self.id})
       result.with_indifferent_access
     end
 
@@ -64,7 +66,6 @@ module TryApi
     end
 
     def initialize(hash)
-      self.id = @@instances_count += 1
       result_hash = {}
       hash.to_h.each do |k, v|
         if k.to_s == 'include!'

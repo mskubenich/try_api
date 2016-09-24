@@ -56,8 +56,8 @@ module TryApi
       end
     end
 
-    def to_json
-      super.merge color: color, description: description, isCollapsed: true
+    def to_json(id)
+      super(id).merge color: color, description: description, isCollapsed: true
     end
   end
 end

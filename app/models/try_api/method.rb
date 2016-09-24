@@ -8,8 +8,8 @@ module TryApi
     typesafe_accessor :method, String
     typesafe_accessor :example_responses, Array, items_type: TryApi::ExampleResponse
 
-    def to_json
-      super.merge local_path: local_path, full_path: full_path
+    def to_json(id)
+      super(id).merge local_path: local_path, full_path: full_path
     end
 
     def full_path

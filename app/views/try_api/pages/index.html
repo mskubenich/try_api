@@ -1,7 +1,7 @@
 <div class="try-api-sidebar">
     <div class="try-api-sidebar-header"><b>{{ project.name }}</b> API</div>
-    <div class="try-api-sidebar-menu-container" id="tryApiScrollspy">
-        <ul class="try-api-sidebar-menu try-api-sidebar-menu-items nav">
+    <div class="try-api-sidebar-menu-container">
+        <ul class="try-api-sidebar-menu try-api-sidebar-menu-items nav" id="tryApiScrollspy">
             <li class="try-api-sidebar-menu-item" ng-repeat="menu_item in project.menu_items track by menu_item.id"><a
                     href="{{ '#section' + menu_item.id }}">{{ menu_item.title }}</a>
                 <ul class="second-level-menu-items nav" ng-show="menu_item.methods">
@@ -34,7 +34,7 @@
             <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}">
                 <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
                     <h4>
-                        <div class="label label-info">{{ method.method }}</div>
+                        <span class="label label-success" style="text-transform: uppercase">{{ method.method }}</span>
                         <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
                     </h4>
                     <div ng-if="method.headers.length &gt; 0"><label>Headers:</label>
