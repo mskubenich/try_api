@@ -18,7 +18,7 @@ angular.module('TryApi').directive 'param', [
       template: '' +
         '<div class="col-md-4 text-right" ng-if=\'parameter.type != "array"\'>' +
         '  <b>{{ parameter.name }}</b>' +
-        '  <span class="text-muted label label-warning">{{ parameter.type }}</span>' +
+        '  <span class="label label-success">{{ parameter.type }}</span>' +
         '</div>' +
         '<div class="col-md-8" ng-if=\'parameter.type != "array"\'>' +
         '  <div ng-switch="parameter.type">' +
@@ -40,7 +40,7 @@ angular.module('TryApi').directive 'param', [
         '  <div class="row">' +
         '    <div class="col-md-4 text-right">' +
         '      <b>{{ parameter.name }}</b>' +
-        '      <span class="text-muted label label-warning">{{ parameter.type }}</span>' +
+        '      <span class="label label-success">{{ parameter.type }}</span>' +
         '    </div>' +
         '    <div class="col-md-8">' +
         '      <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +

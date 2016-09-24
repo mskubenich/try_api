@@ -121,14 +121,12 @@ TryApiApp.controller 'HomeController', [
                 .success method.response_handler
                 .error method.response_handler
               when 'get'
-                fd = ''
+                url = ''
 
                 $.each method.parameters, (i) ->
-                  parameter = this
-                  if parameter.value
-                    fd = fd + parameter.name + '=' + parameter.value + '&'
+                  url = $scope.addParameterToUrl(url, this)
 
-                $http.get path + '?' + fd,
+                $http.get path + '?' + url,
                   transformRequest: angular.identity
                   headers: headers
                 .success method.response_handler
@@ -165,4 +163,25 @@ TryApiApp.controller 'HomeController', [
           else
             if parameter.value
               form.append parameter.name, parameter.value || ''
+
+    $scope.addParameterToUrl = (url, parameter) ->
+      if parameter.type == 'array'
+        $.each parameter.values, ->
+          value = this
+          $.each value, ->
+            subparameter = this
+            switch subparameter.type
+              when 'boolean'
+                url = url + parameter.name + '[]' + (subparameter.name || '') + '=' + (subparameter.value || false) + '&'
+              else
+                if subparameter.value
+                  url = url + parameter.name + '[]' + (subparameter.name || '') + '=' + subparameter.value + '&'
+      else
+        switch parameter.type
+          when 'boolean'
+            url = url + parameter.name + '=' + (parameter.value || false) + '&'
+          else
+            if parameter.value
+              url = url + parameter.name + '=' + parameter.value + '&'
+      return url
 ]

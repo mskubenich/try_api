@@ -9,6 +9,9 @@ angular.module('TryApi').directive 'paramsarray', [
       scope.addItem = ()->
         scope.parameter.values.push jQuery.extend(true, {}, scope.parameter.parameters)
 
+      scope.deleteItem = (index)->
+        scope.parameter.values.splice(index, 1)
+
     return {
       link: link
       restrict: 'A'
@@ -16,9 +19,12 @@ angular.module('TryApi').directive 'paramsarray', [
       scope:
         parameter: '=ngModel'
       template: '' +
-        '<div ng-repeat="value in parameter.values track by $index" style="border: 1px solid lightgray; margin: 1px 1px 1px 10px">' +
+        '<div class="try-api-array-item" ng-repeat="value in parameter.values track by $index">' +
         '  <div params ng-model="value"></div>' +
+        '  <div class="try-api-array-item-close" ng-click="deleteItem($index)"><i class="fa fa-close"></i></div>' +
         '</div>' +
-        '<a class="btn btn-success btn-xs" ng-click="addItem()">+</a>'
+        '<div class="try-api-array-item try-api-array-item-add" ng-click="addItem()">' +
+        '  <a>Add</a>' +
+        '</div>'
     }
 ]
