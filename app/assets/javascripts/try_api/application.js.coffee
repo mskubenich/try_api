@@ -4,6 +4,7 @@
 #= require try_api/image.directive
 #= require try_api/url.directive
 #= require try_api/scrollspy.directive
+#= require action_cable
 
 $ ->
   $('pre code').each (i, block) ->
@@ -29,9 +30,10 @@ $ ->
 TryApiApp = angular.module('TryApiApp', [
   'ui.bootstrap'
   'ngAnimate'
+  'ngCookies'
   'TryApi'
   'angular-ladda'
-  'hljs',
+  'hljs'
   'tryApiScrollSpy.directives'
 ])
 TryApiApp.config [
@@ -51,8 +53,9 @@ TryApiApp.controller 'HomeController', [
   '$scope'
   '$timeout'
   '$sce'
-  '$http'
-  ($scope, $timeout, $sce, $http) ->
+  '$http',
+  '$cookies'
+  ($scope, $timeout, $sce, $http, $cookies) ->
 
 
     $scope.getHtml = (html) ->
@@ -75,6 +78,59 @@ TryApiApp.controller 'HomeController', [
     $scope.global_headers = {}
     $scope.params = []
 
+    $scope.methodSubmit = (method) ->
+      method.pending = true
+      headers = {'Content-Type': undefined}
+
+      $.each method.headers, (i)->
+        header = this
+        headers[header.name] = header.value
+
+      path = method.submit_path
+
+      switch method.method.toLowerCase()
+        when 'post'
+          fd = new FormData
+          fd.append 'a', 'a' # TODO sending empty array causes EOFError
+
+          $.each method.parameters, (i) ->
+            $scope.addParameterToForm fd, this
+
+          $http.post path, fd,
+            transformRequest: angular.identity
+            headers: headers
+          .success method.response_handler
+          .error method.response_handler
+        when 'delete'
+          $http.delete path,
+            transformRequest: angular.identity
+            headers: headers
+          .success method.response_handler
+          .error method.response_handler
+        when 'get'
+          url = ''
+
+          $.each method.parameters, (i) ->
+            url = $scope.addParameterToUrl(url, this)
+
+          $http.get path + '?' + url,
+            transformRequest: angular.identity
+            headers: headers
+          .success method.response_handler
+          .error method.response_handler
+        when 'put'
+          fd = new FormData
+          fd.append 'a', 'a' # TODO sending empty array causes EOFError
+
+          $.each method.parameters, (i) ->
+            $scope.addParameterToForm fd, this
+
+          $http.put path, fd,
+            transformRequest: angular.identity
+            headers: headers
+          .success method.response_handler
+          .error method.response_handler
+
     $http.get('/developers/projects.json').success (data) -> # TODO this should depends from app routes
       $scope.project = data.project
       $.each $scope.project.menu_items, () ->
@@ -93,58 +149,41 @@ TryApiApp.controller 'HomeController', [
               headers: JSON.stringify(config.headers, null, 2)
               status: status
 
-          method.submit = ->
-            method.pending = true
-            headers = {'Content-Type': undefined}
+          switch method.method.toLowerCase()
+            when 'web_socket'
+              method.submit = ->
+                $.each method.cookies, (i) ->
+                  $cookies.put(this.name, this.value)
 
-            $.each method.headers, (i)->
-              header = this
-              headers[header.name] = header.value
+                method.pending = true
+                method.connected = false
+                method.response = {data: []}
+                method.app ||= {}
+                method.app.cable = ActionCable.createConsumer()
 
-            path = method.submit_path
+                method.app.room = method.app.cable.subscriptions.create "ChatChannel",
+                  connected: ->
+                    $scope.$apply ->
+                      method.pending = false
+                      method.response.data.push('Connected')
+                      method.connected = true
+                  disconnected: ->
+                    $scope.$apply ->
+                      method.pending = false
+                      method.response.data.push('Disconnected')
+                  received: (data) ->
+                    $scope.$apply ->
+                      method.response.data.push(JSON.stringify(data))
+                  speak: () ->
+                    @perform 'speak', message: method.message
+                    method.message = ''
 
-            switch method.method.toLowerCase()
-              when 'post'
-                fd = new FormData
-                fd.append 'a', 'a' # TODO sending empty array causes EOFError
+              method.speak = ->
+                method.app.room.speak()
 
-                $.each method.parameters, (i) ->
-                  $scope.addParameterToForm fd, this
-
-                $http.post path, fd,
-                  transformRequest: angular.identity
-                  headers: headers
-                .success method.response_handler
-                .error method.response_handler
-              when 'delete'
-                $http.delete path,
-                  transformRequest: angular.identity
-                  headers: headers
-                .success method.response_handler
-                .error method.response_handler
-              when 'get'
-                url = ''
-
-                $.each method.parameters, (i) ->
-                  url = $scope.addParameterToUrl(url, this)
-
-                $http.get path + '?' + url,
-                  transformRequest: angular.identity
-                  headers: headers
-                .success method.response_handler
-                .error method.response_handler
-              when 'put'
-                fd = new FormData
-                fd.append 'a', 'a' # TODO sending empty array causes EOFError
-
-                $.each method.parameters, (i) ->
-                  $scope.addParameterToForm fd, this
-
-                $http.put path, fd,
-                  transformRequest: angular.identity
-                  headers: headers
-                .success method.response_handler
-                .error method.response_handler
+            else
+              method.submit = ->
+                $scope.methodSubmit(method)
     .error (data, status, headers, config) ->
       if status = 422
         alert data.error

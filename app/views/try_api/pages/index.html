@@ -1,12 +1,16 @@
 <div class="try-api-sidebar">
-    <div class="try-api-sidebar-header"><b>{{ project.name }}</b> API</div>
+    <div class="try-api-sidebar-header">
+        <b>{{ project.name }}</b>
+        API
+    </div>
     <div class="try-api-sidebar-menu-container">
         <ul class="try-api-sidebar-menu try-api-sidebar-menu-items nav" id="tryApiScrollspy">
-            <li class="try-api-sidebar-menu-item" ng-repeat="menu_item in project.menu_items track by menu_item.id"><a
-                    href="{{ '#section' + menu_item.id }}">{{ menu_item.title }}</a>
+            <li class="try-api-sidebar-menu-item" ng-repeat="menu_item in project.menu_items track by menu_item.id">
+                <a href="{{ '#section' + menu_item.id }}">{{ menu_item.title }}</a>
                 <ul class="second-level-menu-items nav" ng-show="menu_item.methods">
-                    <li ng-repeat="method in menu_item.methods track by method.id"><a
-                            href="{{ '#section' + menu_item.id + method.id }}">{{ method.title }}</a></li>
+                    <li ng-repeat="method in menu_item.methods track by method.id">
+                        <a href="{{ '#section' + menu_item.id + method.id }}">{{ method.title }}</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -14,7 +18,9 @@
 </div>
 <div class="try-api-container">
     <div class="row method is-flex">
-        <div class="col-md-6 method-try"><h2 class="method-try-heading">{{ project.name }}</h2></div>
+        <div class="col-md-6 method-try">
+            <h2 class="method-try-heading">{{ project.name }}</h2>
+        </div>
         <div class="col-md-6 method-example">API endpoint
             <div class="method-example-code">{{ project.endpoint }}</div>
         </div>
@@ -31,13 +37,13 @@
                     <div ng-bind-html="getHtml(method.description)"></div>
                 </div>
             </div>
-            <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}">
+            <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}" ng-if="method.method != 'web_socket'">
                 <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
                     <h4>
                         <span class="label label-success" style="text-transform: uppercase">{{ method.method }}</span>
                         <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
                     </h4>
-                    <div ng-if="method.headers.length &gt; 0"><label>Headers:</label>
+                    <div ng-if="method.headers.length > 0"><label>Headers:</label>
                         <div class="row parameter" ng-repeat="header in method.headers">
                             <div class="col-md-4 text-right"><b>{{header.name }}</b></div>
                             <div class="col-md-8"><input ng-model="header.value" type="text"/>
@@ -47,7 +53,7 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="method.parameters.length &gt; 0"><label>Parameters:</label>
+                    <div ng-if="method.parameters.length > 0"><label>Parameters:</label>
                         <div ng-model="method.parameters" params=""></div>
                     </div>
                     <br/>
@@ -83,6 +89,43 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}" ng-if="method.method == 'web_socket'">
+                <div class="col-md-12 method-try"><h4>{{ method.title }}</h4>
+                    <h4>
+                        <span class="label label-success" style="text-transform: uppercase">{{ method.method }}</span>
+                        <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
+                    </h4>
+                    <div ng-if="method.cookies.length > 0"><label>Cookies:</label>
+                        <div class="row parameter" ng-repeat="cookie in method.cookies">
+                            <div class="col-md-4 text-right"><b>{{cookie.name }}</b></div>
+                            <div class="col-md-8"><input ng-model="cookie.value" type="text"/>
+                                <div class="text-muted small">
+                                    <div ng-trust-html="getHtml(cookie.description)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="method-example-code" id="method.response">
+                        <div ng-repeat="data_row in method.response.data track by $index">
+                            {{ data_row }}
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="text-right progress-demo">
+                        <button class="btn btn-success ladda-button" data-color="mint" data-style="expand-right" ladda="method.pending" ng-click="method.submit()" sata-size="s" ng-hide="method.connected">
+                            <span class="ladda-label">Connect</span><span class="ladda-spinner"></span>
+                            <div class="ladda-progress" style="width: 100px"></div>
+                        </button>
+                        <input type="text" ng-model="method.message" placeholder="message" ng-show="method.connected" style="width: 300px"/>
+                        <button class="btn btn-success ladda-button" data-color="mint" data-style="expand-right" ladda="method.pending" ng-click="method.speak()" sata-size="s" ng-show="method.connected">
+                            <span class="ladda-label">Speak</span><span class="ladda-spinner"></span>
+                            <div class="ladda-progress" style="width: 100px"></div>
+                        </button>
+                    </div>
+                    <br/>
                 </div>
             </div>
         </div>
