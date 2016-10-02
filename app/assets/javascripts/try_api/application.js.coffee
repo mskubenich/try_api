@@ -159,14 +159,14 @@ TryApiApp.controller 'HomeController', [
                 method.response = {data: []}
 
                 if 'WebSocket' of window
-                  method.ws = new WebSocket('ws://localhost:3000/cable')
+                  method.ws = new WebSocket('ws://' + $scope.project.endpoint + '/' + method.submit_path)
 
                   method.ws.onopen = ->
                     $scope.$apply ->
                       method.pending = false
                       method.response.data.push('Connected')
-                      method.ws.send(JSON.stringify({command: "subscribe", identifier: JSON.stringify({channel: "ChatChannel"})}))
-                      method.response.data.push('Subscribed to ChatChannel')
+                      method.ws.send(JSON.stringify({command: "subscribe", identifier: JSON.stringify(method.identifier)}))
+                      method.response.data.push('Subscribed to ' + JSON.stringify(method.identifier))
                       method.connected = true
 
                   method.ws.onmessage = (evt) ->
@@ -187,7 +187,7 @@ TryApiApp.controller 'HomeController', [
                 method.ws.send JSON.stringify({
                   command: "message",
                   data: JSON.stringify({ message: method.message, action: 'speak'})
-                  identifier: JSON.stringify({channel: "ChatChannel"})
+                  identifier: JSON.stringify(method.identifier)
                 })
                 method.message = ''
             else

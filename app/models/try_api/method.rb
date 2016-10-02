@@ -9,6 +9,7 @@ module TryApi
     typesafe_accessor :method, String
     typesafe_accessor :example_responses, Array, items_type: TryApi::ExampleResponse
     typesafe_accessor :api_prefix, String
+    typesafe_accessor :identifier, Hash
 
     def to_json(id)
       super(id).merge local_path: local_path, full_path: full_path

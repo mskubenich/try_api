@@ -97,10 +97,19 @@
                         <span class="label label-success" style="text-transform: uppercase">{{ method.method }}</span>
                         <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
                     </h4>
+                    <div ng-if="method.cookies.length > 0"><label>Identifier:</label>
+                        <div class="row parameter">
+                            <div class="col-md-4 text-right"></div>
+                            <div class="col-md-8">
+                                {{ method.identifier }}
+                            </div>
+                        </div>
+                    </div>
                     <div ng-if="method.cookies.length > 0"><label>Cookies:</label>
                         <div class="row parameter" ng-repeat="cookie in method.cookies">
                             <div class="col-md-4 text-right"><b>{{cookie.name }}</b></div>
-                            <div class="col-md-8"><input ng-model="cookie.value" type="text"/>
+                            <div class="col-md-8">
+                                <input ng-model="cookie.value" type="text"/>
                                 <div class="text-muted small">
                                     <div ng-trust-html="getHtml(cookie.description)"></div>
                                 </div>
