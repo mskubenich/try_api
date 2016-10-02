@@ -4,7 +4,6 @@
 #= require try_api/image.directive
 #= require try_api/url.directive
 #= require try_api/scrollspy.directive
-#= require action_cable
 
 $ ->
   $('pre code').each (i, block) ->
@@ -158,29 +157,39 @@ TryApiApp.controller 'HomeController', [
                 method.pending = true
                 method.connected = false
                 method.response = {data: []}
-                method.app ||= {}
-                method.app.cable = ActionCable.createConsumer()
 
-                method.app.room = method.app.cable.subscriptions.create "ChatChannel",
-                  connected: ->
+                if 'WebSocket' of window
+                  method.ws = new WebSocket('ws://localhost:3000/cable')
+
+                  method.ws.onopen = ->
                     $scope.$apply ->
                       method.pending = false
                       method.response.data.push('Connected')
+                      method.ws.send(JSON.stringify({command: "subscribe", identifier: JSON.stringify({channel: "ChatChannel"})}))
+                      method.response.data.push('Subscribed to ChatChannel')
                       method.connected = true
-                  disconnected: ->
+
+                  method.ws.onmessage = (evt) ->
+                    $scope.$apply ->
+                      if(JSON.parse(evt.data).type != 'ping')
+                        method.response.data.push(evt.data)
+
+                  method.ws.onclose = ->
                     $scope.$apply ->
                       method.pending = false
+                      method.connected = false
                       method.response.data.push('Disconnected')
-                  received: (data) ->
-                    $scope.$apply ->
-                      method.response.data.push(JSON.stringify(data))
-                  speak: () ->
-                    @perform 'speak', message: method.message
-                    method.message = ''
+
+                else
+                  method.response.data.push('WebSocket NOT supported by your Browser!')
 
               method.speak = ->
-                method.app.room.speak()
-
+                method.ws.send JSON.stringify({
+                  command: "message",
+                  data: JSON.stringify({ message: method.message, action: 'speak'})
+                  identifier: JSON.stringify({channel: "ChatChannel"})
+                })
+                method.message = ''
             else
               method.submit = ->
                 $scope.methodSubmit(method)
