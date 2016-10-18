@@ -128,7 +128,7 @@
                             <span class="ladda-label">Connect</span><span class="ladda-spinner"></span>
                             <div class="ladda-progress" style="width: 100px"></div>
                         </button>
-                        <input type="text" ng-model="method.message" placeholder="message" ng-show="method.connected" style="width: 300px"/>
+                        <textarea ng-model="method.message" placeholder="message" ng-show="method.connected" style="width: 300px"></textarea>
                         <button class="btn btn-success ladda-button" data-color="mint" data-style="expand-right" ladda="method.pending" ng-click="method.speak()" sata-size="s" ng-show="method.connected">
                             <span class="ladda-label">Speak</span><span class="ladda-spinner"></span>
                             <div class="ladda-progress" style="width: 100px"></div>

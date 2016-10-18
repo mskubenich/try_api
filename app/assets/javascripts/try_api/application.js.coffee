@@ -101,7 +101,12 @@ TryApiApp.controller 'HomeController', [
           .success method.response_handler
           .error method.response_handler
         when 'delete'
-          $http.delete path,
+          url = ''
+
+          $.each method.parameters, (i) ->
+            url = $scope.addParameterToUrl(url, this)
+
+          $http.delete path + '?' + url,
             transformRequest: angular.identity
             headers: headers
           .success method.response_handler
