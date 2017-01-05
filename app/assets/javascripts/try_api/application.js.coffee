@@ -8,6 +8,7 @@
 #= require try_api/params.directive
 #= require try_api/param.directive
 #= require try_api/paramsarray.directive
+#= require try_api/paramsobject.directive
 #= require try_api/image.directive
 #= require try_api/url.directive
 
@@ -187,6 +188,14 @@ TryApiApp.controller 'HomeController', [
                 form.append parameter.name + '[]' + subparameter.name, subparameter.value || false
               else
                 form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
+      if parameter.type == 'object'
+        $.each parameter.values, ->
+          subparameter = this
+          switch subparameter.type
+            when 'boolean'
+              form.append parameter.name + '[' + subparameter.name + ']', subparameter.value || false
+            else
+              form.append parameter.name + '[' + subparameter.name + ']', subparameter.value || ''
       else
         form.append parameter.name, parameter.value || ''
 ]
