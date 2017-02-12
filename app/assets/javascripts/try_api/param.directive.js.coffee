@@ -16,11 +16,11 @@ angular.module('TryApi').directive 'param', [
       scope:
         parameter: '=ngModel'
       template: '' +
-        '<div class="col-md-4 text-right" ng-if=\'parameter.type != "array"\'>' +
+        '<div class="col-md-4 text-right" ng-if=\'parameter.type != "array" && parameter.type != "object"\'>' +
         '  <b>{{ parameter.name }}</b>' +
         '  <span class="label label-success">{{ parameter.type }}</span>' +
         '</div>' +
-        '<div class="col-md-8" ng-if=\'parameter.type != "array"\'>' +
+        '<div class="col-md-8" ng-if=\'parameter.type != "array" && parameter.type != "object"\'>' +
         '  <div ng-switch="parameter.type">' +
         '    <input ng-switch-when="string" type="text" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\'>' +
         '    <textarea ng-switch-when="text" ng-model="parameter.value" placeholder=\'{{ parameter.required ? "required" : "optional"}}\' style="max-width: 100%" />' +
@@ -47,6 +47,18 @@ angular.module('TryApi').directive 'param', [
         '    </div>' +
         '  </div>' +
         '  <div paramsarray ng-model="parameter"></div>' +
+        '</div>' +
+        '<div class="col-md-12" ng-if=\'parameter.type == "object"\'>' +
+        '  <div class="row">' +
+        '    <div class="col-md-4 text-right">' +
+        '      <b>{{ parameter.name }}</b>' +
+        '      <span class="text-muted label label-warning">{{ parameter.type }}</span>' +
+        '    </div>' +
+        '    <div class="col-md-8">' +
+        '      <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +
+        '    </div>' +
+        '  </div>' +
+        '  <div paramsobject ng-model="parameter"></div>' +
         '</div>'
     }
 ]
