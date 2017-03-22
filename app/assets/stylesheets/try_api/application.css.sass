@@ -2,6 +2,8 @@ body
   margin: 0
   background-color: #f3f3f4
   font-family: Arial, Helvetica, sans-serif
+  min-width: 700px
+  overflow: auto
 
   input, textarea
     border: 0
@@ -121,6 +123,9 @@ body
         &-try
           background-color: white
           padding: 20px 15px
+          @media (max-width: 1000px)
+            width: 100%
+            min-width: 500px
 
           &-heading
             color: rgb(137, 140, 143)
@@ -130,6 +135,9 @@ body
           background-color: #32373a
           color: #b1bdc4
           padding: 10px 15px
+          @media (max-width: 1000px)
+            width: 100%
+            min-width: 500px
           &-code, code
             color: #b1bdc4
             margin: 0
