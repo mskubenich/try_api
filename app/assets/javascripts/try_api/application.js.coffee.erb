@@ -3,6 +3,7 @@
 #= require try_api/paramsarray.directive
 #= require try_api/paramsobject.directive
 #= require try_api/image.directive
+#= require try_api/curl.directive
 #= require try_api/url.directive
 #= require try_api/scrollspy.directive
 
@@ -28,7 +29,6 @@ $ ->
 
 
 TryApiApp = angular.module('TryApiApp', [
-  'ui.bootstrap'
   'ngAnimate'
   'ngCookies'
   'TryApi'
@@ -143,6 +143,7 @@ TryApiApp.controller 'HomeController', [
         $.each menu_item.methods, ()->
           method = this
           method.pending = false
+          method.endpoint = $scope.project.endpoint;
           method.response_handler = (data, status, headers, config) ->
             method.pending = false
             try # TODO catch different types of response

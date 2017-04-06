@@ -12,21 +12,16 @@ angular.module('TryApi').directive('image', ['$filter', function($filter) {
         scope.removeImage = function(e){
             e.stopPropagation();
             e.preventDefault();
-            scope.image.base64 = null;
+            scope.image.blob_url = null;
             return false;
         };
 
         var addImage = function(image){
-            var base64 ='';
             if(image.type.indexOf("image") > -1) {
-                var reader = new FileReader();
-                reader.onload = function(e){
-                    scope.$apply(function(){
-                        scope.model = image;
-                        scope.image = {base64: e.target.result };
-                    });
-                };
-                reader.readAsDataURL(image);
+                scope.$apply(function(){
+                    scope.model = image;
+                    scope.image = { blob_url: (window.URL || window.webkitURL).createObjectURL(image), filename: image.name };
+                });
             }else{
 
             }
@@ -81,9 +76,9 @@ angular.module('TryApi').directive('image', ['$filter', function($filter) {
         },
         template: "<div class='droppable-area'>" +
         "<ul class='images-list' >" +
-        '<li class="plus" style="background-image: url(\'{{ image.base64 || image.url }}\')">' +
+        '<li class="plus" style="background-image: url(\'{{ image.blob_url || image.url }}\')">' +
         "<label>" +
-        '<i class="fa fa-plus" ng-hide="image.base64"/>' +
+        '<i class="fa fa-plus" ng-hide="image.blob_url"/>' +
         '<input type="file" class="file-select" />' +
         "</label>" +
         "</li>" +

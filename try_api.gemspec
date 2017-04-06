@@ -8,8 +8,8 @@ require "try_api/exceptions"
 Gem::Specification.new do |s|
   s.name        = "try_api"
   s.version     = TryApi::VERSION
-  s.authors     = ["Mykhaylo Skubenych"]
-  s.email       = ["mykhaylo.skubenych@gmail.com"]
+  s.authors     = ["Michael Skubenych"]
+  s.email       = ["michael.skubenych@gmail.com"]
   s.homepage    = "https://github.com/mskubenich/try_api"
   s.summary     = %q{Generates API UI from simple .yml manifest.}
   s.description = %q{Generates UI for rails apps with APIs. You can easily test, share and play with you'r APIs. Enjoy ) }

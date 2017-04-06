@@ -46,7 +46,9 @@ angular.module('tryApiScrollSpy.directives', [])
 
         var activate = function(scope, $element, attrs) {
             $(attrs.target + ' .active').removeClass('active');
-            $element.addClass('active');
+            if($element){
+                $element.addClass('active');
+            }
         };
 
         var process = function(scope, element, attrs) {

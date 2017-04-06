@@ -28,8 +28,6 @@ Mount try_api engine to your routes. Add this to routes.rb
 mount TryApi::Engine => '/developers'
 ```
 
-This works ony with Rails yet. Maybe there is a sense to make it self-sufficient ? Using sinatra for example...
-
 ## Usage
 
 Modify [config/try_api/base.yml](lib/generators/try_api/templates/try_api/base.yml)

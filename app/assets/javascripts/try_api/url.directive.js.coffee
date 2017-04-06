@@ -25,7 +25,7 @@ angular.module('TryApi').directive 'url', [
       , true
 
       scope.inputStyle = (part) ->
-        charWidth = 13.3;
+        charWidth = 11.5;
         return  {
           "width": ((part.value).length + 1) * charWidth + "px",
           "min-width": ((part.placeholder).length) * charWidth + "px"

@@ -38,22 +38,28 @@
                 </div>
             </div>
             <div class="row method is-flex" id="{{ method.description ? '' : ('section' + menu_item.id + method.id) }}" ng-if="method.method != 'web_socket'">
-                <div class="col-md-6 method-try"><h4>{{ method.title }}</h4>
-                    <h4>
+                <div class="col-md-6 method-try">
+                    <div class="method-title">{{ method.title }}</div>
+                    <div class="method-url">
                         <span class="label label-success" style="text-transform: uppercase">{{ method.method }}</span>
                         <span url=true ng-model="method.submit_path" pattern="method.local_path"></span>
-                    </h4>
-                    <div ng-if="method.headers.length > 0"><label>Headers:</label>
+                    </div>
+                    <div ng-if="method.headers.length > 0">
+                        <div class="params-label">Headers</div>
                         <div class="row parameter" ng-repeat="header in method.headers">
-                            <div class="col-md-4 text-right"><b>{{header.name }}</b></div>
-                            <div class="col-md-8"><input ng-model="header.value" type="text"/>
+                            <div class="col-md-4 text-right">
+                                <b>{{header.name }}</b>
+                            </div>
+                            <div class="col-md-8">
+                                <input ng-model="header.value" type="text"/>
                                 <div class="text-muted small">
                                     <div ng-trust-html="getHtml(header.description)"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div ng-if="method.parameters.length > 0"><label>Parameters:</label>
+                    <div ng-if="method.parameters.length > 0">
+                        <div class="params-label">Parameters</div>
                         <div ng-model="method.parameters" params=""></div>
                     </div>
                     <br/>
@@ -76,16 +82,21 @@
                         <div hljs="" hljs-language="json" hljs-source="method.response.headers"></div>
                     </div>
                 </div>
-                <div class="col-md-6 method-example"><h1>Example responses</h1>
-                    <div ng-repeat="example in method.example_responses" class="method-example-response">
-                        <div class="method-example-response-header" ng-click="example.isCollapsed = !example.isCollapsed" ng-class="{ 'collapsed': example.isCollapsed }">
-                            <span class="label label-{{ example.color }}">
-                                {{ example.code }}
-                            </span>
-                            &nbsp;{{ example.description }}
-                            <i class="fa" ng-class=" example.isCollapsed ? 'fa-chevron-left' : 'fa-chevron-down' "></i>
+                <div class="col-md-6 method-example">
+                    <div class="method-example-menu" ng-init="method.menu = 'resp'">
+                        <span class="label" ng-class="{'label-success': method.menu == 'resp'}" ng-click="method.menu = 'resp'">Response</span>
+                        <span class="label" ng-class="{'label-success': method.menu == 'curl'}" ng-click="method.menu = 'curl'">curl</span>
+                    </div>
+
+                    <div ng-show="method.menu == 'curl'">
+                        <div curl ng-model="method"></div>
+                    </div>
+                    <div ng-repeat="example in method.example_responses" class="method-example-response" ng-show="method.menu == 'resp'">
+                        <div class="method-example-response-header">
+                            {{ example.code }}
+                            {{ example.description }}
                         </div>
-                        <div class="method-example-response-body" hljs="" hljs-language="{{ example.type }}" hljs-source="example.response"  uib-collapse="example.isCollapsed">
+                        <div class="method-example-response-body" hljs="" hljs-language="{{ example.type }}" hljs-source="example.response">
 
                         </div>
                     </div>
@@ -142,8 +153,12 @@
     <div class="row method is-flex">
         <div class="col-md-6 method-try"></div>
         <div class="col-md-6 method-example">
-            <div class="text-right"><strong>Created using <a href="https://github.com/mskubenich/try_api">try_api <i
-                    class="fa fa-github"></i></a></strong></div>
+            <div class="text-right">
+                <strong>
+                    Created using
+                    <a href="https://github.com/mskubenich/try_api">try_api <i class="fa fa-github"></i></a>
+                </strong>
+            </div>
         </div>
     </div>
 </div>

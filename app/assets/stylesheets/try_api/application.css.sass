@@ -12,7 +12,6 @@ body
     &:not(.url-input)
       width: 100%
 
-
   ::-webkit-input-placeholder
     color: #19B698
   ::-moz-placeholder
@@ -23,11 +22,16 @@ body
     color: #19B698
 
   pre
-    padding: 0
+    line-height: 1.25
+    border-radius: 5px
+    box-shadow: 0 0 200px rgba(0,0,0,.33) inset
     margin: 0
-    background-color: transparent
-    border: 0
-    border-radius: 0
+    border-top: 1px solid #000
+    border-bottom: 1px solid #404040
+    white-space: pre-wrap
+    word-break: normal
+    word-spacing: normal
+    background-color: black
 
   button
     outline: none !important
@@ -101,13 +105,18 @@ body
           padding-bottom: 60px
           .second-level-menu-items
             list-style-type: none
-            font-size: 14px
-            padding: 10px 9px
+            font-size: 12px
+            padding: 4px 9px
+            li
+              a
+                color: rgb(61, 64, 66)
+                font-size: 12.5px
 
         &-item
           a
-            color: rgb(61, 64, 66)
             text-decoration: none
+            font-size: 14px
+            color: black
             &:hover
               text-decoration: underline
 
@@ -122,17 +131,29 @@ body
         border-bottom: 1px solid lightgray
         &-try
           background-color: white
-          padding: 20px 15px
+          padding: 15px 15px
           @media (max-width: 1000px)
             width: 100%
             min-width: 500px
-
           &-heading
             color: rgb(137, 140, 143)
             font-weight: normal
-
+          .method-title
+            font-size: 18px
+            color: black
+            font-weight: 500
+          .method-url
+            font-size: 17px
+            color: black
+          .params-label
+            color: gray
+            text-align: center
+            text-transform: uppercase
+            margin-top: 14px
+            border-bottom: 1px solid lightgray
+            font-size: 13px
         &-example
-          background-color: #32373a
+          background-color: #23241f
           color: #b1bdc4
           padding: 10px 15px
           @media (max-width: 1000px)
@@ -142,24 +163,22 @@ body
             color: #b1bdc4
             margin: 0
             padding: 20px 40px
-            background: #272b2d
+            background: #23241f
             border-radius: 5px
             font-family: Source Code Pro,Menlo,monospace
             font-size: 13px
             line-height: 1.5em
             font-weight: 500
-          h1
-            font-size: 16px
-            text-transform: uppercase
+          &-menu
+            text-align: right
+            .label
+              cursor: pointer
 
           &-response
             margin: 2px 0
             &-header
-              background-color: #272b2d
+              margin-top: 10px
               padding: 3px
-              cursor: pointer
-              border-top-right-radius: 5px
-              border-top-left-radius: 5px
               position: relative
               i.fa
                 position: absolute
@@ -193,9 +212,7 @@ body
       font-size: 16px
       color: rgb(137, 140, 143)
 
-
   .parameter
-    padding-bottom: 5px
     padding-top: 5px
 
 .nav > li > a
