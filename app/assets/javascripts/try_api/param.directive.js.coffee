@@ -52,7 +52,7 @@ angular.module('TryApi').directive 'param', [
         '  <div class="row">' +
         '    <div class="col-md-4 text-right">' +
         '      <b>{{ parameter.name }}</b>' +
-        '      <span class="text-muted label label-warning">{{ parameter.type }}</span>' +
+        '      <span class="text-muted label label-warning">object</span>' +
         '    </div>' +
         '    <div class="col-md-8">' +
         '      <div class="text-muted small" ng-bind-html="getHtml(parameter.description)"></div>' +

@@ -204,52 +204,61 @@ TryApiApp.controller 'HomeController', [
       if status = 422
         alert data.error
 
-    $scope.addParameterToForm = (form, parameter) -> # TODO implement multidimentional parameters
-      if parameter.type == 'array'
-        form.append 'a', 'a' # TODO sending empty array causes EOFError
-        $.each parameter.values, ->
-          value = this
-          $.each value, ->
-            subparameter = this
-            switch subparameter.type
-              when 'boolean'
-                form.append parameter.name + '[]' + subparameter.name, subparameter.value || false
-              else
-                form.append parameter.name + '[]' + subparameter.name, subparameter.value || ''
-      if parameter.type == 'object'
-        $.each parameter.values, ->
-          subparameter = this
-          switch subparameter.type
-            when 'boolean'
-              form.append parameter.name + '[' + subparameter.name + ']', subparameter.value || false
-            else
-              form.append parameter.name + '[' + subparameter.name + ']', subparameter.value || ''
+    $scope.pathBuild = (path, next) ->
+      if path
+        path += '[' + next + ']'
       else
-        switch parameter.type
-          when 'boolean'
-            form.append parameter.name, parameter.value || false
-          else
-            if parameter.value
-              form.append parameter.name, parameter.value || ''
+        path = next
+      return path
 
-    $scope.addParameterToUrl = (url, parameter) ->
+    $scope.addSampleParameterToForm = (form, parameter, path = '') ->
+      path = $scope.pathBuild path, parameter.name
+      switch parameter.type
+        when 'boolean'
+          form.append path, parameter.value || false
+        else
+          if parameter.value
+            form.append path, parameter.value || ''
+
+    $scope.addArrayToForm = (form, parameter, path = '') ->
+      form.append 'a', 'a' # TODO sending empty array causes EOFError
+      path = ($scope.pathBuild path, parameter.name) + '[]'
+      $.each parameter.values, ->
+        $.each this, ->
+          $scope.addParameterToForm form, this, path
+
+    $scope.addParameterToForm = (form, parameter, path = '') ->
       if parameter.type == 'array'
+        $scope.addArrayToForm form, parameter, path
+      if parameter.type == 'object'
+        path = $scope.pathBuild path, parameter.name
         $.each parameter.values, ->
-          value = this
-          $.each value, ->
-            subparameter = this
-            switch subparameter.type
-              when 'boolean'
-                url = url + parameter.name + '[]' + (subparameter.name || '') + '=' + (subparameter.value || false) + '&'
-              else
-                if subparameter.value
-                  url = url + parameter.name + '[]' + (subparameter.name || '') + '=' + subparameter.value + '&'
+          $scope.addParameterToForm form, this, path
       else
-        switch parameter.type
-          when 'boolean'
-            url = url + parameter.name + '=' + (parameter.value || false) + '&'
-          else
-            if parameter.value
-              url = url + parameter.name + '=' + parameter.value + '&'
+        $scope.addSampleParameterToForm form, parameter, path
+
+    $scope.addSampleParameterToUrl = (url, parameter, path = '') ->
+      path = ($scope.pathBuild path, parameter.name) + '='
+      switch parameter.type
+        when 'boolean'
+          url += path + (parameter.value || false) + '&'
+        else
+          if parameter.value
+            url += path + parameter.value + '&'
+      return url
+
+    $scope.addParameterToUrl = (url, parameter, path = '') ->
+      switch parameter.type
+        when 'array'
+          path = ($scope.pathBuild path, parameter.name) + '[]'
+          $.each parameter.values, ->
+            $.each this, ->
+              url = $scope.addParameterToUrl url, this, path
+        when 'object'
+          path = $scope.pathBuild path, parameter.name
+          $.each parameter.values, ->
+            url = $scope.addParameterToUrl url, this, path
+        else
+          url = $scope.addSampleParameterToUrl url, parameter, path
       return url
 ]
