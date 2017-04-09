@@ -126,14 +126,58 @@ menu_items:
           -
             name: 'array'
             type: 'array'
-            description: 'Yes! this is array which can include other sets of parameters. '
+            description: 'Yes! this is array which can include other sets of parameters.'
             parameters:
-               -
-                 name: 'id'
-                 type: 'integer'
+              -
+                name: 'id'
+                type: 'integer'
           -
             name: 'text'
             type: 'text'
+          -
+            name: 'object'
+            type: 'object'
+            parameters:
+              -
+                name: 'string'
+                type: 'string'
+              -
+                name: 'integer'
+                type: 'integer'
+              -
+                name: 'boolean'
+                type: 'boolean'
+              -
+                name: 'image'
+                type: 'image'
+              -
+                name: 'array'
+                type: 'array'
+                description: 'Yes! this is array which can include other sets of parameters.'
+                parameters:
+                  -
+                    name: 'id'
+                    type: 'integer'
+          -
+            name: 'custom_object'
+            type: 'object'
+            custom: true
+            description: 'Object with ability add fileds in real time.'
+            parameters:
+              -
+                name: 'string'
+                type: 'string'
+              -
+                name: 'integer'
+                type: 'integer'
+              -
+                name: 'array'
+                type: 'array'
+                description: 'Yes! this is array which can include other sets of parameters.'
+                parameters:
+                  -
+                    name: 'id'
+                    type: 'integer'
       -
         title: 'Endpoint with URL parameters.'
         path: '/search/:q'
