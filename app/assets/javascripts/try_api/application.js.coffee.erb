@@ -86,55 +86,35 @@ TryApiApp.controller 'HomeController', [
         header = this
         headers[header.name] = header.value
 
-      path = method.submit_path
+      path =  $scope.project.host
+      if $scope.project.port
+        path += ':' + $scope.project.port
+
+      path += '/' + method.submit_path
+
+      fd = new FormData
 
       switch method.method.toLowerCase()
-        when 'post'
-          fd = new FormData
+        when 'post', 'delete', 'put'
           fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
           $.each method.parameters, (i) ->
             $scope.addParameterToForm fd, this
-
-          $http.post path, fd,
-            transformRequest: angular.identity
-            headers: headers
-          .success method.response_handler
-          .error method.response_handler
-        when 'delete'
-          url = ''
-
-          $.each method.parameters, (i) ->
-            url = $scope.addParameterToUrl(url, this)
-
-          $http.delete path + '?' + url,
-            transformRequest: angular.identity
-            headers: headers
-          .success method.response_handler
-          .error method.response_handler
         when 'get'
           url = ''
-
           $.each method.parameters, (i) ->
             url = $scope.addParameterToUrl(url, this)
+          path += '?' + url
 
-          $http.get path + '?' + url,
-            transformRequest: angular.identity
-            headers: headers
-          .success method.response_handler
-          .error method.response_handler
-        when 'put'
-          fd = new FormData
-          fd.append 'a', 'a' # TODO sending empty array causes EOFError
-
-          $.each method.parameters, (i) ->
-            $scope.addParameterToForm fd, this
-
-          $http.put path, fd,
-            transformRequest: angular.identity
-            headers: headers
-          .success method.response_handler
-          .error method.response_handler
+      $http({
+        url: path,
+        data: fd,
+        transformRequest: angular.identity,
+        headers: headers,
+        method: method.method.toLowerCase()
+      })
+        .success(method.response_handler)
+        .error(method.response_handler)
 
     $http.get('<%= TryApi::Engine.routes.url_helpers.projects_path %>').success (data) ->
       $scope.project = data.project

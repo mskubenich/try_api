@@ -25,17 +25,64 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
                 })
             }
 
-            scope.curlString = 'curl -X ' + method + ' ' + scope.model.endpoint + '/' + scope.model.submit_path + headers.join('');
+            let params = '';
+            let urlParams = '';
 
             if(scope.model.parameters && scope.model.parameters.length > 0) {
-                if (formData) {
-                    scope.curlString += ' -c -include ' + scope.toFormDataKeys(scope.model.parameters);
+                if (scope.model.method == 'get') {
+                    urlParams += scope.toUrlParameters(scope.model.parameters);
+                }else if (formData) {
+                    params += ' -c -include ' + scope.toFormDataKeys(scope.model.parameters);
                 } else {
-                    scope.curlString += ' -d "' + JSON.stringify(scope.toJsonParameters(scope.model.parameters)).replace(/"/g, '\\"').replace(/,/g, ', ') + '"';
+                    params += ' -d "' + JSON.stringify(scope.toJsonParameters(scope.model.parameters)).replace(/"/g, '\\"').replace(/,/g, ', ') + '"';
                 }
             }
 
+            scope.curlString = 'curl -X ' + method + ' ' + headers.join('') + params + ' ' + scope.model.endpoint + '/' + scope.model.submit_path + urlParams;
+
         }, true)
+
+        scope.toUrlParameters = function(parameters,prefix,result){
+            if(!result)
+                result = [];
+
+            if(parameters && parameters.length > 0){
+                parameters.forEach(function(parameter){
+
+                    let name = '';
+
+                    if(prefix) {
+                        name = prefix + '[' + parameter.name + ']';
+                    }else{
+                        name = parameter.name;
+                    }
+
+                    if(parameter.type == 'array'){
+                        if(parameter.values && parameter.values.length > 0){
+                            let i = 0;
+                            parameter.values.forEach(function(value){
+                                let temp_parameters = [];
+                                for(let k in value){
+                                    temp_parameters.push(value[k]);
+                                }
+                                scope.toUrlParameters(temp_parameters, name + '[]', result);
+                                i++;
+                            })
+                        }
+                    }else{
+                        let value = '';
+
+                        if(parameter.type == 'image'){
+
+                        }else{
+                            value = parameter.value || '';
+                            result.push(name + '=' + value);
+                        }
+                    }
+                });
+            }
+            return '?' + result.join('&');
+        }
 
         scope.toFormDataKeys = function(parameters, prefix){
             let result = '';
