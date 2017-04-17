@@ -96,10 +96,13 @@ TryApiApp.controller 'HomeController', [
 
       switch method.method.toLowerCase()
         when 'post', 'delete', 'put'
-          fd.append 'a', 'a' # TODO sending empty array causes EOFError
 
           $.each method.parameters, (i) ->
             $scope.addParameterToForm fd, this
+
+          if fd.keys().next().done
+            fd = {}
+
         when 'get'
           url = ''
           $.each method.parameters, (i) ->
@@ -184,9 +187,11 @@ TryApiApp.controller 'HomeController', [
       if status = 422
         alert data.error
 
-    $scope.pathBuild = (path, next) ->
+    $scope.pathBuild = (path, next = '') ->
+      if next
+        next = '[' + next + ']'
       if path
-        path += '[' + next + ']'
+        path += next
       else
         path = next
       return path
@@ -201,7 +206,6 @@ TryApiApp.controller 'HomeController', [
             form.append path, parameter.value || ''
 
     $scope.addArrayToForm = (form, parameter, path = '') ->
-      form.append 'a', 'a' # TODO sending empty array causes EOFError
       path = ($scope.pathBuild path, parameter.name) + '[]'
       $.each parameter.values, ->
         $.each this, ->
