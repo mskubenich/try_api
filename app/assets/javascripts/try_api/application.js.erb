@@ -1,0 +1,298 @@
+//= require try_api/params.directive
+//= require try_api/param.directive
+//= require try_api/paramsarray.directive
+//= require try_api/paramsobject.directive
+//= require try_api/image.directive
+//= require try_api/curl.directive
+//= require try_api/url.directive
+//= require try_api/scrollspy.directive
+
+var TryApiApp;
+
+$(function() {
+  $('pre code').not('.no-binding').each(function(i, block) {
+    return block.css("border", "1px solid red");
+  });
+  $('.try-api-sidebar-menu').slimScroll({
+    height: '100%'
+  });
+  return Ladda.bind('.progress-demo button', {
+    callback: function(instance) {
+      var interval, progress;
+      progress = 0;
+      interval = setInterval((function() {
+        progress = Math.min(progress + Math.random() * 0.1, 1);
+        instance.setProgress(progress);
+        if (progress === 1) {
+          instance.stop();
+          clearInterval(interval);
+        }
+      }), 200);
+    }
+  });
+});
+
+TryApiApp = angular.module('TryApiApp', ['ngAnimate', 'ngCookies', 'TryApi', 'angular-ladda', 'hljs', 'tryApiScrollSpy.directives']);
+
+TryApiApp.config([
+  '$httpProvider', 'hljsServiceProvider', function($httpProvider, hljsServiceProvider) {
+    return hljsServiceProvider.setOptions({
+      tabReplace: '  '
+    });
+  }
+]);
+
+TryApiApp.run(['$http', '$rootScope', function($http, $rootScope) {}]);
+
+TryApiApp.controller('HomeController', [
+  '$scope', '$timeout', '$sce', '$http', '$cookies', function($scope, $timeout, $sce, $http, $cookies) {
+    $scope.getHtml = function(html) {
+      return $sce.trustAsHtml(html);
+    };
+    $scope.getStatusCodeClass = function(code) {
+      switch (true) {
+        case code >= 200 && code < 300:
+          return 'text-success';
+        case code >= 300 && code < 400:
+          return 'text-warning';
+        case code >= 400 && code < 500:
+          return 'text-danger';
+        case code >= 500:
+          return 'text-danger';
+        default:
+          return 'text-info';
+      }
+    };
+    $scope.headers = [];
+    $scope.global_headers = {};
+    $scope.params = [];
+    $scope.methodSubmit = function(method) {
+      var fd, headers, path, url;
+      method.pending = true;
+      headers = {
+        'Content-Type': void 0
+      };
+      method.headers.forEach(function(i) {
+        var header;
+        header = this;
+        return headers[header.name] = header.value;
+      });
+      path = $scope.project.host;
+      if ($scope.project.port) {
+        path += ':' + $scope.project.port;
+      }
+      path += '/' + method.submit_path;
+      fd = new FormData;
+      switch (method.method.toLowerCase()) {
+        case 'post':
+        case 'delete':
+        case 'put':
+          $.each(method.parameters, function(i) {
+            return $scope.addParameterToForm(fd, this);
+          });
+          if (fd.keys().next().done) {
+            fd = {};
+          }
+          break;
+        case 'get':
+          url = '';
+          $.each(method.parameters, function(i) {
+            return url = $scope.addParameterToUrl(url, this);
+          });
+          path += '?' + url;
+      }
+      return $http({
+        url: path,
+        data: fd,
+        transformRequest: angular.identity,
+        headers: headers,
+        method: method.method.toLowerCase()
+      }).success(method.response_handler).error(method.response_handler);
+    };
+    $http.get('<%= TryApi::Engine.routes.url_helpers.projects_path %>').success(function(data) {
+      $scope.project = data.project;
+      return $.each($scope.project.menu_items, function() {
+        var menu_item;
+        menu_item = this;
+        return menu_item.methods.forEach(function() {
+          var method;
+          method = this;
+          method.pending = false;
+          method.endpoint = $scope.project.endpoint;
+          method.response_handler = function(data, status, headers, config) {
+            var e;
+            method.pending = false;
+            try {
+              data = JSON.stringify(data, null, 2);
+            } catch (_error) {
+              e = _error;
+            }
+            return method.response = {
+              data: data,
+              headers: JSON.stringify(config.headers, null, 2),
+              status: status
+            };
+          };
+          switch (method.method.toLowerCase()) {
+            case 'web_socket':
+              method.submit = function() {
+                $.each(method.cookies, function(i) {
+                  return $cookies.put(this.name, this.value);
+                });
+                method.pending = true;
+                method.connected = false;
+                method.response = {
+                  data: []
+                };
+                if ('WebSocket' in window) {
+                  method.ws = new WebSocket('ws://' + $scope.project.endpoint + '/' + method.submit_path);
+                  method.ws.onopen = function() {
+                    return $scope.$apply(function() {
+                      method.pending = false;
+                      method.response.data.push('Connected');
+                      method.ws.send(JSON.stringify({
+                        command: "subscribe",
+                        identifier: JSON.stringify(method.identifier)
+                      }));
+                      method.response.data.push('Subscribed to ' + JSON.stringify(method.identifier));
+                      return method.connected = true;
+                    });
+                  };
+                  method.ws.onmessage = function(evt) {
+                    return $scope.$apply(function() {
+                      if (JSON.parse(evt.data).type !== 'ping') {
+                        return method.response.data.push(evt.data);
+                      }
+                    });
+                  };
+                  return method.ws.onclose = function() {
+                    return $scope.$apply(function() {
+                      method.pending = false;
+                      method.connected = false;
+                      return method.response.data.push('Disconnected');
+                    });
+                  };
+                } else {
+                  return method.response.data.push('WebSocket NOT supported by your Browser!');
+                }
+              };
+              return method.speak = function() {
+                method.ws.send(JSON.stringify({
+                  command: "message",
+                  data: JSON.stringify({
+                    message: method.message,
+                    action: 'speak'
+                  }),
+                  identifier: JSON.stringify(method.identifier)
+                }));
+                return method.message = '';
+              };
+            default:
+              return method.submit = function() {
+                return $scope.methodSubmit(method);
+              };
+          }
+        });
+      });
+    }).error(function(data, status, headers, config) {
+      if (status = 422) {
+        return alert(data.error);
+      }
+    });
+    $scope.pathBuild = function(path, next) {
+      if (next == null) {
+        next = '';
+      }
+      if (next) {
+        next = '[' + next + ']';
+      }
+      if (path) {
+        path += next;
+      } else {
+        path = next;
+      }
+      return path;
+    };
+    $scope.addSampleParameterToForm = function(form, parameter, path) {
+      if (path == null) {
+        path = '';
+      }
+      path = $scope.pathBuild(path, parameter.name);
+      switch (parameter.type) {
+        case 'boolean':
+          return form.append(path, parameter.value || false);
+        default:
+          if (parameter.value) {
+            return form.append(path, parameter.value || '');
+          }
+      }
+    };
+    $scope.addArrayToForm = function(form, parameter, path) {
+      if (path == null) {
+        path = '';
+      }
+      path = ($scope.pathBuild(path, parameter.name)) + '[]';
+      return $.each(parameter.values, function() {
+        return $.each(this, function() {
+          return $scope.addParameterToForm(form, this, path);
+        });
+      });
+    };
+    $scope.addParameterToForm = function(form, parameter, path) {
+      if (path == null) {
+        path = '';
+      }
+      if (parameter.type === 'array') {
+        $scope.addArrayToForm(form, parameter, path);
+      }
+      if (parameter.type === 'object') {
+        path = $scope.pathBuild(path, parameter.name);
+        return $.each(parameter.values, function() {
+          return $scope.addParameterToForm(form, this, path);
+        });
+      } else {
+        return $scope.addSampleParameterToForm(form, parameter, path);
+      }
+    };
+    $scope.addSampleParameterToUrl = function(url, parameter, path) {
+      if (path == null) {
+        path = '';
+      }
+      path = ($scope.pathBuild(path, parameter.name)) + '=';
+      switch (parameter.type) {
+        case 'boolean':
+          url += path + (parameter.value || false) + '&';
+          break;
+        default:
+          if (parameter.value) {
+            url += path + parameter.value + '&';
+          }
+      }
+      return url;
+    };
+    return $scope.addParameterToUrl = function(url, parameter, path) {
+      if (path == null) {
+        path = '';
+      }
+      switch (parameter.type) {
+        case 'array':
+          path = ($scope.pathBuild(path, parameter.name)) + '[]';
+          $.each(parameter.values, function() {
+            return $.each(this, function() {
+              return url = $scope.addParameterToUrl(url, this, path);
+            });
+          });
+          break;
+        case 'object':
+          path = $scope.pathBuild(path, parameter.name);
+          $.each(parameter.values, function() {
+            return url = $scope.addParameterToUrl(url, this, path);
+          });
+          break;
+        default:
+          url = $scope.addSampleParameterToUrl(url, parameter, path);
+      }
+      return url;
+    };
+  }
+]);

@@ -9,9 +9,9 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
         scope.$watch(function(){
             return JSON.stringify(scope.model);
         }, function(){
-            let method = scope.model.method.toString().toUpperCase();
-            let headers = [];
-            let formData = scope.isFormData(scope.model.parameters);
+            var method = scope.model.method.toString().toUpperCase();
+            var headers = [];
+            var formData = scope.isFormData(scope.model.parameters);
 
             if(formData) {
 
@@ -25,8 +25,8 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
                 })
             }
 
-            let params = '';
-            let urlParams = '';
+            var params = '';
+            var urlParams = '';
 
             if(scope.model.parameters && scope.model.parameters.length > 0) {
                 if (scope.model.method == 'get') {
@@ -49,7 +49,7 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
             if(parameters && parameters.length > 0){
                 parameters.forEach(function(parameter){
 
-                    let name = '';
+                    var name = '';
 
                     if(prefix) {
                         name = prefix + '[' + parameter.name + ']';
@@ -59,10 +59,10 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
 
                     if(parameter.type == 'array'){
                         if(parameter.values && parameter.values.length > 0){
-                            let i = 0;
+                            var i = 0;
                             parameter.values.forEach(function(value){
-                                let temp_parameters = [];
-                                for(let k in value){
+                                var temp_parameters = [];
+                                for(var k in value){
                                     temp_parameters.push(value[k]);
                                 }
                                 scope.toUrlParameters(temp_parameters, name + '[]', result);
@@ -70,7 +70,7 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
                             })
                         }
                     }else{
-                        let value = '';
+                        var value = '';
 
                         if(parameter.type == 'image'){
 
@@ -85,12 +85,12 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
         }
 
         scope.toFormDataKeys = function(parameters, prefix){
-            let result = '';
+            var result = '';
 
             if(parameters && parameters.length > 0){
                 parameters.forEach(function(parameter){
 
-                    let name = '';
+                    var name = '';
 
                     if(prefix) {
                         name = prefix + '[' + parameter.name + ']';
@@ -100,10 +100,10 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
 
                     if(parameter.type == 'array'){
                         if(parameter.values && parameter.values.length > 0){
-                            let i = 0;
+                            var i = 0;
                             parameter.values.forEach(function(value){
-                                let temp_parameters = [];
-                                for(let k in value){
+                                var temp_parameters = [];
+                                for(var k in value){
                                     temp_parameters.push(value[k]);
                                 }
                                 result += scope.toFormDataKeys(temp_parameters, name + '[]');
@@ -111,7 +111,7 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
                             })
                         }
                     }else{
-                        let value = '';
+                        var value = '';
 
                         if(parameter.type == 'image'){
                             value = parameter.value ? '@' + parameter.value.name : '';
@@ -127,7 +127,7 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
         }
 
         scope.toJsonParameters = function(parameters){
-            let result = {};
+            var result = {};
 
             if(parameters && parameters.length > 0){
                 parameters.forEach(function(parameter){
@@ -135,8 +135,8 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
                         if(parameter.values && parameter.values.length > 0){
                             result[parameter.name] = [];
                             parameter.values.forEach(function(value){
-                                let temp_parameters = [];
-                                for(let k in value){
+                                var temp_parameters = [];
+                                for(var k in value){
                                     temp_parameters.push(value[k]);
                                 }
                                 result[parameter.name].push(scope.toJsonParameters(temp_parameters));
@@ -151,15 +151,15 @@ angular.module('TryApi').directive('curl', ['$filter', function($filter) {
         }
 
         scope.isFormData = function(parameters){
-            let result = false;
+            var result = false;
 
             if(parameters && parameters.length > 0){
                 parameters.forEach(function(parameter){
                     if(parameter.type == 'array'){
                         if(parameter.values && parameter.values.length > 0){
                             parameter.values.forEach(function(value){
-                                let temp_parameters = [];
-                                for(let k in value){
+                                var temp_parameters = [];
+                                for(var k in value){
                                     temp_parameters.push(value[k]);
                                 }
                                 result = scope.toJsonParameters(temp_parameters);

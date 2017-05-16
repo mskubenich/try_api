@@ -1,20 +1,19 @@
-angular.module('TryApi').directive 'param', [
-  '$filter',
-  '$sce'
-  ($filter, $sce) ->
-
-    link = (scope, element, attrs, ctrl) ->
-      scope.unique_id = Math.random()
-
-      scope.getHtml = (html) ->
-        return $sce.trustAsHtml(html)
-
+angular.module('TryApi').directive('param', [
+  '$filter', '$sce', function($filter, $sce) {
+    var link;
+    link = function(scope, element, attrs, ctrl) {
+      scope.unique_id = Math.random();
+      return scope.getHtml = function(html) {
+        return $sce.trustAsHtml(html);
+      };
+    };
     return {
-      link: link
-      restrict: 'A'
-      require: 'ngModel'
-      scope:
+      link: link,
+      restrict: 'A',
+      require: 'ngModel',
+      scope: {
         parameter: '=ngModel'
+      },
       template: '' +
         '<div class="col-md-4 text-right" ng-if=\'parameter.type != "array" && parameter.type != "object"\'>' +
         '  <b>{{ parameter.name }}</b>' +
@@ -60,5 +59,6 @@ angular.module('TryApi').directive 'param', [
         '  </div>' +
         '  <div paramsobject ng-model="parameter"></div>' +
         '</div>'
-    }
-]
+    };
+  }
+]);
