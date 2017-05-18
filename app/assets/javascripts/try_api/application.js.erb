@@ -72,11 +72,11 @@ TryApiApp.controller('HomeController', [
       headers = {
         'Content-Type': void 0
       };
-      method.headers.forEach(function(i) {
-        var header;
-        header = this;
-        return headers[header.name] = header.value;
-      });
+      if(method.headers) {
+        method.headers.forEach(function (header) {
+          return headers[header.name] = header.value;
+        });
+      }
       path = $scope.project.host;
       if ($scope.project.port) {
         path += ':' + $scope.project.port;
@@ -114,9 +114,7 @@ TryApiApp.controller('HomeController', [
       return $.each($scope.project.menu_items, function() {
         var menu_item;
         menu_item = this;
-        return menu_item.methods.forEach(function() {
-          var method;
-          method = this;
+        menu_item.methods.forEach(function(method) {
           method.pending = false;
           method.endpoint = $scope.project.endpoint;
           method.response_handler = function(data, status, headers, config) {
