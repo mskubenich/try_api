@@ -1,5 +1,6 @@
 name: 'Your awesome project'
-host: 'http://localhost'
+protocol: 'http'
+host: 'localhost'
 port: 3000
 api_prefix: 'api/v1'
 
