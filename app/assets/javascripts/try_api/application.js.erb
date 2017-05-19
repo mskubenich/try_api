@@ -78,6 +78,9 @@ TryApiApp.controller('HomeController', [
         });
       }
       path = $scope.project.host;
+      if ($scope.project.protocol) {
+        path =  $scope.project.protocol + '://' + path;
+      }
       if ($scope.project.port) {
         path += ':' + $scope.project.port;
       }
