@@ -1,8 +1,4 @@
-unless Boolean
-  module Boolean; end
-  class TrueClass; include Boolean; end
-  class FalseClass; include Boolean; end
-end
+require "try_api/boolean"
 
 module TryApi
   class Base
