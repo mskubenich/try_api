@@ -26,7 +26,7 @@
         </div>
     </div>
     <div ng-repeat="menu_item in project.menu_items track by menu_item.id">
-        <div class="row method" id="'section' + menu_item.id">
+        <div class="row method" id="{{'section' + menu_item.id}}">
             <div class="col-md-12 method-try"><h3>{{ menu_item.title }}</h3>
                 <div ng-bind-html="getHtml(menu_item.description)"></div>
             </div>
@@ -48,7 +48,7 @@
                         <div class="params-label">Headers</div>
                         <div class="row parameter" ng-repeat="header in method.headers">
                             <div class="col-md-4 text-right">
-                                <b>{{header.name }}</b>
+                                <b>{{ header.name }}</b>
                             </div>
                             <div class="col-md-8">
                                 <input ng-model="header.value" type="text"/>
@@ -118,7 +118,7 @@
                     </div>
                     <div ng-if="method.cookies.length > 0"><label>Cookies:</label>
                         <div class="row parameter" ng-repeat="cookie in method.cookies">
-                            <div class="col-md-4 text-right"><b>{{cookie.name }}</b></div>
+                            <div class="col-md-4 text-right"><b>{{ cookie.name }}</b></div>
                             <div class="col-md-8">
                                 <input ng-model="cookie.value" type="text"/>
                                 <div class="text-muted small">
