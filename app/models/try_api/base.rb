@@ -1,5 +1,3 @@
-require "try_api/boolean"
-
 module TryApi
   class Base
 
@@ -10,7 +8,7 @@ module TryApi
       end
 
       define_method("#{name}=") do |value|
-        if value.is_a?(type) || value.nil?
+        if type.is_a?(Array) ? type.any?{|t| value.is_a?(t) } : value.is_a?(type) || value.nil?
           if options[:items_type].try(:<, TryApi::Base)
 
             items = []
